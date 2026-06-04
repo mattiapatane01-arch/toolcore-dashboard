@@ -1,0 +1,176 @@
+[
+  {
+    "iteration": 16,
+    "version": "v16",
+    "date": "2026-06-04",
+    "modification": "Baseline — fix compilazione errori v15",
+    "params_changed": { "note": "nessun parametro strategico — solo fix compilazione" },
+    "metrics": {
+      "PF": 0.74,
+      "DD_percent": 38.68,
+      "payoff_ratio": 2.84,
+      "win_rate": 29.2,
+      "trade_count": 137,
+      "net_profit_eur": -596,
+      "avg_win_eur": 56,
+      "avg_loss_eur": 93,
+      "corr_mfe": 0.39
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.0,
+    "advocate_verdict": "REJECT",
+    "fresh_eyes_verdict": "REJECT",
+    "learning": {
+      "what": "Corretti errori di compilazione del codice originale v15 (blocchi duplicati, variabili sbagliate, tipo di dato errato). Punto di partenza obbligatorio prima di ottimizzare qualsiasi cosa.",
+      "result": "PF=0.74, DD=38.68%. L'EA perde. I dati MAE/MFE rivelano però qualcosa di fondamentale: 108 trade su 137 uscivano in Stop Loss nonostante avessero raggiunto un profitto medio di 3R prima di tornare indietro. Caso peggiore: USDJPY aveva raggiunto +34R di guadagno e poi era tornato a SL a -407€.",
+      "key_concept": "MFE (Maximum Favorable Excursion): è il massimo guadagno raggiunto da un trade prima di chiudersi. Se un trade ha MFE=3R ma chiude in perdita, significa che il prezzo è arrivato molto in profitto ma non c'era nessun meccanismo per bloccare quel guadagno.",
+      "next_step": "Serve un trailing stop per i T2 runner — quei trade che dopo il partial TP diventano corridori verso profitti grandi."
+    }
+  },
+  {
+    "iteration": 17,
+    "version": "v17",
+    "date": "2026-06-04",
+    "modification": "Trailing stop T2 runner (attivazione a 2R)",
+    "params_changed": { "T2_trail_activation_R": 2.0, "trail_type": "ATR-based" },
+    "metrics": {
+      "PF": 0.72,
+      "DD_percent": 30.83,
+      "payoff_ratio": 1.21,
+      "win_rate": 29.5,
+      "trade_count": 137,
+      "net_profit_eur": -620,
+      "avg_win_eur": 48,
+      "avg_loss_eur": 93,
+      "corr_mfe": 0.35
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.0,
+    "advocate_verdict": "REJECT",
+    "fresh_eyes_verdict": "REJECT",
+    "learning": {
+      "what": "Aggiunto trailing stop per i trade T2. Quando un T2 raggiunge 2R di profitto, inizia a seguire il prezzo con uno stop mobile basato sull'ATR, così se il prezzo torna indietro usciamo con un profitto invece di tornare a zero.",
+      "result": "Il Payoff è crollato da 2.84 a 1.21. Bug sottile: la condizione isT2 includeva per errore anche i trade T1. Il trailing veniva applicato anche a trade che non dovevano averlo, tagliando i vincitori prima che raggiungessero il loro TP naturale.",
+      "key_concept": "Bug di logica booleana: una condizione A OR B include tutto ciò che soddisfa A o B. Volevamo solo A (T2), ma abbiamo scritto A OR B includendo anche B (T1). È il tipo di bug silenzioso più pericoloso: compila senza errori ma fa esattamente il contrario di quello che vuoi.",
+      "next_step": "Correggere la condizione: isT2 deve essere SOLO T2, mai T1."
+    }
+  },
+  {
+    "iteration": 18,
+    "version": "v18",
+    "date": "2026-06-04",
+    "modification": "Fix condizione isT2 — rimosso T1 dalla logica",
+    "params_changed": { "isT2_condition": "solo T2, rimosso OR T1" },
+    "metrics": {
+      "PF": 0.84,
+      "DD_percent": 30.26,
+      "payoff_ratio": 2.02,
+      "win_rate": 29.8,
+      "trade_count": 137,
+      "net_profit_eur": -430,
+      "avg_win_eur": 62,
+      "avg_loss_eur": 88,
+      "corr_mfe": 0.70
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.056,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Una sola riga cambiata: rimosso StringFind(comment, T1) == 0 dalla condizione isT2. Ora il trailing strutturale si applica solo ai T2 runner, come era l'intenzione originale.",
+      "result": "PF 0.75→0.84, DD 30.83→30.26%, Payoff torna a 2.02. Dato più importante: corr_mfe da 0.39 a 0.70 — ora c'è una forte correlazione tra quanto sale un trade e quanto guadagniamo.",
+      "key_concept": "Correlazione MFE: se corr_mfe=1.0, ogni euro di potenziale del trade viene catturato perfettamente. Se=0, siamo casuali. Prima eravamo a 0.39 (quasi casuali). Ora 0.70 — molto meglio, ma c'è ancora spazio.",
+      "next_step": "42 trade T1 avevano MFE≥1R ma chiudevano al SL. Il runner T1 post-partial TP non aveva protezione."
+    }
+  },
+  {
+    "iteration": 19,
+    "version": "v19",
+    "date": "2026-06-04",
+    "modification": "Trailing T1 post-partial TP (attivazione 1.1R)",
+    "params_changed": { "T1_trail_activation_R": 1.1 },
+    "metrics": {
+      "PF": 0.84,
+      "DD_percent": 30.26,
+      "payoff_ratio": 2.02,
+      "win_rate": 29.8,
+      "trade_count": 137,
+      "net_profit_eur": -430,
+      "avg_win_eur": 62,
+      "avg_loss_eur": 88,
+      "corr_mfe": 0.70
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.056,
+    "advocate_verdict": "REJECT",
+    "fresh_eyes_verdict": "REJECT",
+    "learning": {
+      "what": "Aggiunto trailing stop specifico per i T1 dopo il partial TP, con attivazione a 1.1R (più bassa di quella T2 che è 2R, perché T1 è una posizione più normale).",
+      "result": "PF identico a v18 (0.84). Zero effetto. Bug architetturale: CheckPartialTP era chiamato dentro un gate M15 che in backtest con Model=1 non veniva mai superato — il partial TP non veniva mai eseguito, quindi non esistevano runner T1 o T2 su cui agire.",
+      "key_concept": "Gate temporali nel backtest: spesso si agisce solo alla chiusura di una candela per evitare rumore. Ma se metti tutta la logica dentro quel gate, anche operazioni che dovrebbero girare ogni tick vengono eseguite raramente. Bisogna separare la logica ogni-tick da quella ogni-candela.",
+      "next_step": "Spostare CheckPartialTP e ManageTrailingStructural fuori dal gate M15, chiamarli direttamente in OnTick()."
+    }
+  },
+  {
+    "iteration": 20,
+    "version": "v20",
+    "date": "2026-06-04",
+    "modification": "Fix architetturale — CheckPartialTP in OnTick()",
+    "params_changed": { "CheckPartialTP_location": "OnTick() invece di gate M15", "ManageTrailingStructural_location": "OnTick()" },
+    "metrics": {
+      "PF": 0.98,
+      "DD_percent": 26.0,
+      "payoff_ratio": 2.10,
+      "win_rate": 34.0,
+      "trade_count": 140,
+      "net_profit_eur": -87,
+      "avg_win_eur": 71,
+      "avg_loss_eur": 85,
+      "corr_mfe": 0.78
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.074,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Spostato CheckPartialTP() e ManageTrailingStructural() direttamente in OnTick(), fuori dal gate M15 che le bloccava. Modifica minima al codice, impatto massimo.",
+      "result": "PF 0.84→0.98 (+17%), DD 30.26→26.0% (-14%), WR 29.2→34.0% (+5pp). Primo backtest davvero valido dall'inizio del progetto. Non ancora al target (PF≥1.35), ma ora su base reale.",
+      "key_concept": "OnTick() vs gate candela: mettere la gestione degli stop dentro il gate M15 significava che lo stop poteva muoversi solo ogni 15 minuti. Nel frattempo il prezzo poteva già aver toccato il vecchio livello. Gli stop devono girare in OnTick(), sempre.",
+      "next_step": "Analizzare MAE/MFE v20 per coppia e sessione. Identificare quale coppia pesa di più sulle perdite. PF=0.98 ancora sotto 1.0."
+    }
+  },
+  {
+    "iteration": 21,
+    "version": "v21",
+    "date": "2026-06-04",
+    "modification": "Filtro sessione notte: 23:00 → 22:00 GMT",
+    "params_changed": { "night_filter_start_GMT": 22 },
+    "metrics": {
+      "PF": 0.98,
+      "DD_percent": 26.0,
+      "payoff_ratio": 2.10,
+      "win_rate": 34.0,
+      "trade_count": 140,
+      "net_profit_eur": -87,
+      "avg_win_eur": 71,
+      "avg_loss_eur": 85,
+      "corr_mfe": 0.78
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.074,
+    "advocate_verdict": "REJECT",
+    "fresh_eyes_verdict": "REJECT",
+    "learning": {
+      "what": "Spostato l'orario di inizio del filtro notte da 23:00 a 22:00 GMT, per escludere l'ora di bassa liquidità e spread più alti tra le 22 e le 23 GMT.",
+      "result": "Assolutamente nulla. Numeri identici al millesimo (PF=0.98, DD=26.0%). La modifica era corretta tecnicamente ma neutra economicamente: quell'ora probabilmente non genera trade rilevanti nel campione testato, o erano già esclusi da un altro filtro.",
+      "key_concept": "Ottimizzare il nulla: in trading algoritmico, una modifica corretta non è necessariamente utile. Prima di toccare qualsiasi filtro temporale, bisogna verificare quanti trade cadono davvero in quell'intervallo. Se la risposta è zero, stai sistemando una porta in una stanza vuota.",
+      "next_step": "Ignorare i filtri temporali per ora e concentrarsi sulla qualità degli entry/exit. Analizzare quale coppia o sessione pesa di più sulle perdite in v21."
+    }
+  }
+]
