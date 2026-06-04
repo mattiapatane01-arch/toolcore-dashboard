@@ -4,7 +4,9 @@
     "version": "v16",
     "date": "2026-06-04",
     "modification": "Baseline — fix compilazione errori v15",
-    "params_changed": { "note": "nessun parametro strategico — solo fix compilazione" },
+    "params_changed": {
+      "note": "nessun parametro strategico — solo fix compilazione"
+    },
     "metrics": {
       "PF": 0.74,
       "DD_percent": 38.68,
@@ -33,7 +35,10 @@
     "version": "v17",
     "date": "2026-06-04",
     "modification": "Trailing stop T2 runner (attivazione a 2R)",
-    "params_changed": { "T2_trail_activation_R": 2.0, "trail_type": "ATR-based" },
+    "params_changed": {
+      "T2_trail_activation_R": 2.0,
+      "trail_type": "ATR-based"
+    },
     "metrics": {
       "PF": 0.72,
       "DD_percent": 30.83,
@@ -62,7 +67,9 @@
     "version": "v18",
     "date": "2026-06-04",
     "modification": "Fix condizione isT2 — rimosso T1 dalla logica",
-    "params_changed": { "isT2_condition": "solo T2, rimosso OR T1" },
+    "params_changed": {
+      "isT2_condition": "solo T2, rimosso OR T1"
+    },
     "metrics": {
       "PF": 0.84,
       "DD_percent": 30.26,
@@ -72,7 +79,7 @@
       "net_profit_eur": -430,
       "avg_win_eur": 62,
       "avg_loss_eur": 88,
-      "corr_mfe": 0.70
+      "corr_mfe": 0.7
     },
     "status": "success",
     "kept": true,
@@ -91,7 +98,9 @@
     "version": "v19",
     "date": "2026-06-04",
     "modification": "Trailing T1 post-partial TP (attivazione 1.1R)",
-    "params_changed": { "T1_trail_activation_R": 1.1 },
+    "params_changed": {
+      "T1_trail_activation_R": 1.1
+    },
     "metrics": {
       "PF": 0.84,
       "DD_percent": 30.26,
@@ -101,7 +110,7 @@
       "net_profit_eur": -430,
       "avg_win_eur": 62,
       "avg_loss_eur": 88,
-      "corr_mfe": 0.70
+      "corr_mfe": 0.7
     },
     "status": "neutral",
     "kept": false,
@@ -120,11 +129,14 @@
     "version": "v20",
     "date": "2026-06-04",
     "modification": "Fix architetturale — CheckPartialTP in OnTick()",
-    "params_changed": { "CheckPartialTP_location": "OnTick() invece di gate M15", "ManageTrailingStructural_location": "OnTick()" },
+    "params_changed": {
+      "CheckPartialTP_location": "OnTick() invece di gate M15",
+      "ManageTrailingStructural_location": "OnTick()"
+    },
     "metrics": {
       "PF": 0.98,
       "DD_percent": 26.0,
-      "payoff_ratio": 2.10,
+      "payoff_ratio": 2.1,
       "win_rate": 34.0,
       "trade_count": 140,
       "net_profit_eur": -87,
@@ -149,11 +161,13 @@
     "version": "v21",
     "date": "2026-06-04",
     "modification": "Filtro sessione notte: 23:00 → 22:00 GMT",
-    "params_changed": { "night_filter_start_GMT": 22 },
+    "params_changed": {
+      "night_filter_start_GMT": 22
+    },
     "metrics": {
       "PF": 0.98,
       "DD_percent": 26.0,
-      "payoff_ratio": 2.10,
+      "payoff_ratio": 2.1,
       "win_rate": 34.0,
       "trade_count": 140,
       "net_profit_eur": -87,
@@ -171,6 +185,35 @@
       "result": "Assolutamente nulla. Numeri identici al millesimo (PF=0.98, DD=26.0%). La modifica era corretta tecnicamente ma neutra economicamente: quell'ora probabilmente non genera trade rilevanti nel campione testato, o erano già esclusi da un altro filtro.",
       "key_concept": "Ottimizzare il nulla: in trading algoritmico, una modifica corretta non è necessariamente utile. Prima di toccare qualsiasi filtro temporale, bisogna verificare quanti trade cadono davvero in quell'intervallo. Se la risposta è zero, stai sistemando una porta in una stanza vuota.",
       "next_step": "Ignorare i filtri temporali per ora e concentrarsi sulla qualità degli entry/exit. Analizzare quale coppia o sessione pesa di più sulle perdite in v21."
+    }
+  },
+  {
+    "iteration": 22,
+    "version": "v22",
+    "date": "2026-06-04",
+    "modification": "NightStart 22→21: restringe ulteriormente il blocco di sessioni notturne dalle 21:00 GMT",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.98,
+      "DD_percent": 26.0,
+      "payoff_ratio": 1.909,
+      "win_rate": 34.01,
+      "trade_count": 147,
+      "net_profit_eur": -148,
+      "avg_win_eur": 179,
+      "avg_loss_eur": -94,
+      "corr_mfe": 0.69
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.363,
+    "advocate_verdict": "Ogni riduzione di NightStart elimina ulteriori trade. devil_advocate di v21 ha segnalato che trade AS redditizi (ticket 30/31) sarebbero bloccati. NightStart=21 potrebbe ridurre trade count a ~135-140 (vs 147), avvicinandoci al limite statistico di 30. WR potrebbe scendere di 1-2pp se perdiamo entry LDN early-window.",
+    "fresh_eyes_verdict": "DD 26.0%→23-25%; PF 0.98→1.00-1.04; trade count 147→135-142; WR 34.01%→33-34%; payoff invariato ~1.9",
+    "learning": {
+      "what": "Abbiamo ristretto ulteriormente l'orario di blocco delle sessioni notturne, facendolo iniziare già alle 21:00 GMT invece che più tardi. In pratica, abbiamo detto al robot di stare fermo ancora più ore durante la notte.",
+      "result": "Nulla. Il Profit Factor è rimasto 0.98, il Drawdown sempre 26.0%, il Payoff Ratio fisso a 1.91. È come se il robot avesse ignorato completamente la modifica — continua a perdere soldi allo stesso modo. Con 147 trade totali, il problema non è la quantità, ma la qualità delle decisioni.",
+      "key_concept": "",
+      "next_step": "Analizza i trade che il robot fa nelle ore rimaste aperte: stanno guadagnando o perdendo? Il prossimo passo dovrebbe essere verificare la qualità delle entrate, non solo gli orari."
     }
   }
 ]
