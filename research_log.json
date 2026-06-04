@@ -331,5 +331,34 @@
       "key_concept": "",
       "next_step": "Nella prossima iterazione, prova a fare cambiamenti più significativi (non aggiustamenti minori). Oppure verifica se il problema è nella logica di entrata/uscita piuttosto che nei parametri numerici."
     }
+  },
+  {
+    "iteration": 27,
+    "version": "v27",
+    "date": "2026-06-04",
+    "modification": "La patch precedente (SL 15→8 pips) affronta il SINTOMO (tight stop) anziché la CAUSA RADICE. Fresh Eyes individua il vero problema: MAE 2-4R su trade stoppati indica setup di bassa qualità, non 'rumore'. v27 aumenta il filtro di qualità (MinScore 60→75) per escludere gli entry borderline con alto rischio di avversità. Questo ridurrà i trade totali ma migliorerà il ratio vincenti/persi e la robustezza.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.22,
+      "DD_percent": 15.95,
+      "payoff_ratio": 1.951,
+      "win_rate": 38.54,
+      "trade_count": 96,
+      "net_profit_eur": 1,
+      "avg_win_eur": 202,
+      "avg_loss_eur": -104,
+      "corr_mfe": 0.68
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.452,
+    "advocate_verdict": "PROCEED (retry) — 1. CONTRADDIZIONE LOGICA: Ticket 4,5,8,33,35,37,43,47,48 hanno MAE 2-4R ma sono già persi (exit_reason=SL). Se MAE è 3-4",
+    "fresh_eyes_verdict": "PROCEED (retry) — La logica confonde MAE (Maximum Adverse Excursion) con 'rumore SL': i dati mostrano MAE=2-4R su trade stoppati, il che i",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'Expert Advisor v27, probabilmente cambiando il modo in cui il bot apre o chiude le posizioni, senza però avere i dettagli della modifica stessa.",
+      "result": "Nulla di concreto — i numeri sono rimasti esattamente uguali. Profit Factor 1.22, Max Drawdown 15.9%, Win Rate 38.5%: tutto invariato. È come se avessi cambiato la tela di un quadro ma il dipinto restasse identico. I 96 trade totali sono stati eseguiti, ma senza alcun beneficio misurabile dalla modifica.",
+      "key_concept": "",
+      "next_step": "Prima di modificare ancora, torna indietro e analizza *esattamente* cosa hai cambiato: potrebbe essere superfluo. Prova modifiche che abbiano un impatto logico più diretto, come la gestione del rischio o le condizioni di entrata."
+    }
   }
 ]
