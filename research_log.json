@@ -389,5 +389,34 @@
       "key_concept": "",
       "next_step": "Verifica che il codice modificato sia stato davvero compilato e caricato nell'EA. Poi prova una modifica più aggressiva e misurabile per essere sicuro che i test stiano funzionando correttamente."
     }
+  },
+  {
+    "iteration": 29,
+    "version": "v29",
+    "date": "2026-06-04",
+    "modification": "[RULE-BASED v29] RiskPercent 0.49→0.34% (DD=0.0%)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.35,
+      "DD_percent": 4.03,
+      "payoff_ratio": 1.667,
+      "win_rate": 44.83,
+      "trade_count": 29,
+      "net_profit_eur": 195,
+      "avg_win_eur": 57,
+      "avg_loss_eur": -34,
+      "corr_mfe": 0.78
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.832,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo modificato il sistema di gestione del rischio nel nostro EA, probabilmente riducendo la dimensione delle posizioni o aggiungendo filtri per evitare operazioni rischiose.",
+      "result": "Il sistema è diventato molto più sicuro (Max Drawdown da 15.9% a 4.0% — quasi 4 volte migliore!) e ha vinto più spesso (44.8% vs 38.5%). È come se avessimo insegnato al robot a \"fare meno operazioni, ma più intelligenti\": invece di scommettere forte su ogni trade, ora gioca prudente e vince più volte. Il Profit Factor è salito a 1.35, segno che i guadagni superano le perdite più chiaramente.",
+      "key_concept": "",
+      "next_step": "Controlla se questo sistema tiene quando il mercato cambia direzione bruscamente. Verifica anche se 29 trade sono abbastanza per confermare il miglioramento."
+    }
   }
 ]
