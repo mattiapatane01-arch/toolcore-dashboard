@@ -1,0 +1,15 @@
+# Deploya SOLO dashboard.html, research_log.json e netlify.toml
+*.py
+*.mq5
+*.sh
+*.json
+!research_log.json
+*.md
+*.txt
+*.csv
+*.zip
+archive/
+loop_state/
+files/
+__pycache__/
+.git/
