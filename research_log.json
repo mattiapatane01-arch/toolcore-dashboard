@@ -360,5 +360,34 @@
       "key_concept": "",
       "next_step": "Prima di modificare ancora, torna indietro e analizza *esattamente* cosa hai cambiato: potrebbe essere superfluo. Prova modifiche che abbiano un impatto logico più diretto, come la gestione del rischio o le condizioni di entrata."
     }
+  },
+  {
+    "iteration": 28,
+    "version": "v28",
+    "date": "2026-06-04",
+    "modification": "Aggiungi filtro input bool g_ExcludeOV=true per bloccare completamente la sessione OV (overlap NYC-LDN). I ticket 35/37/43 falliscono proprio in OV/LDN con MAE 1.5-3.3R allo SL finale — non è un problema di trailing ma di volatilità d'ingresso su segnale borderline.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.22,
+      "DD_percent": 15.95,
+      "payoff_ratio": 1.951,
+      "win_rate": 38.54,
+      "trade_count": 96,
+      "net_profit_eur": 1,
+      "avg_win_eur": 202,
+      "avg_loss_eur": -104,
+      "corr_mfe": 0.68
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.452,
+    "advocate_verdict": "PROCEED (retry) — Il rationale confonde MAE (drawdown adverso dal punto d'ingresso) con il problema del trailing. Nei ticket 35/37/43, il ",
+    "fresh_eyes_verdict": "PROCEED (retry) — L'ipotesi confonde causa e sintomo. I tre ticket citati (35, 37, 43) hanno MAE rispettivamente 1.596, 3.376, 3.326R — du",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'Expert Advisor v28 rispetto alla versione precedente (v27), probabilmente aggiustando i parametri di entrata o uscita dalle posizioni.",
+      "result": "Nulla. Tutti i numeri sono rimasti identici: Profit Factor 1.22, Max Drawdown 15.9%, tutto uguale a v27. È come se avessimo cambiato la ricetta di un piatto ma il sapore fosse esattamente lo stesso — la modifica non ha avuto alcun effetto reale sul comportamento del sistema.",
+      "key_concept": "",
+      "next_step": "Verifica che il codice modificato sia stato davvero compilato e caricato nell'EA. Poi prova una modifica più aggressiva e misurabile per essere sicuro che i test stiano funzionando correttamente."
+    }
   }
 ]
