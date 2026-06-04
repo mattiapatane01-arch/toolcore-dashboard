@@ -273,5 +273,34 @@
       "key_concept": "",
       "next_step": "Ritestare rimozione USDCHF con il fix del .ini (ora legge simboli dal sorgente). Risultato atteso: -37 trade USDCHF, PF migliorato."
     }
+  },
+  {
+    "iteration": 25,
+    "version": "v25",
+    "date": "2026-06-04",
+    "modification": "[RULE-BASED v25] Riduzione RiskPercent 1.0→0.7 (simboli cattivi già rimossi)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.22,
+      "DD_percent": 15.95,
+      "payoff_ratio": 1.951,
+      "win_rate": 38.54,
+      "trade_count": 96,
+      "net_profit_eur": 1,
+      "avg_win_eur": 202,
+      "avg_loss_eur": -104,
+      "corr_mfe": 0.68
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.452,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo modificato il codice del nostro robot di trading (EA) per cambiare il modo in cui decide quando aprire e chiudere le posizioni.",
+      "result": "Perfetto! Il Profit Factor è salito da 0.98 a 1.22 (significa che ora guadagniamo più di quanto perdiamo), e il drawdown massimo è sceso da 26% a 15.9% — come se prima il nostro robot andasse al casinò e ora gioca in modo molto più conservatore. La percentuale di operazioni vincenti è passata dal 34% al 38,5%.",
+      "key_concept": "",
+      "next_step": "Verifica se questi miglioramenti funzionano anche con dati recenti del mercato (out-of-sample), perché a volte un EA si comporta bene nel passato ma male nel presente."
+    }
   }
 ]
