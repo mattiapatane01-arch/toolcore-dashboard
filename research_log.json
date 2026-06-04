@@ -215,5 +215,34 @@
       "key_concept": "",
       "next_step": "Analizza i trade che il robot fa nelle ore rimaste aperte: stanno guadagnando o perdendo? Il prossimo passo dovrebbe essere verificare la qualità delle entrate, non solo gli orari."
     }
+  },
+  {
+    "iteration": 23,
+    "version": "v23",
+    "date": "2026-06-04",
+    "modification": "Aumenta NightStart da 21 a 20 per escludere completamente i trade dell'overlap notturno (OV), sessione che nel dataset v22 produce solo perdite senza vincenti correlati",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.98,
+      "DD_percent": 26.0,
+      "payoff_ratio": 1.909,
+      "win_rate": 34.01,
+      "trade_count": 147,
+      "net_profit_eur": -148,
+      "avg_win_eur": 179,
+      "avg_loss_eur": -94,
+      "corr_mfe": 0.69
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.363,
+    "advocate_verdict": "NightStart 21→20 ridurrà ulteriormente il trade count verso il limite statistico di ~30. Se OV non è il vero problema (ma solo correlazione spuria nel backtest), questa patch è un false positive. Inoltre, ticket 30/31 (USDJPY AS vincenti) potrebbero trovarsi parzialmente nella fascia 21:00-22:00 GMT durante transizione di sessione.",
+    "fresh_eyes_verdict": "PF: 0.98 → 1.01-1.04 | DD: 26.0% → 24-25% | Payoff: ~1.90 stabile | Trades: 147 → 140-143 | WR: 34% → 35-36%",
+    "learning": {
+      "what": "Abbiamo spostato l'orario di inizio della sessione notturna da 21:00 a 20:00, per bloccare completamente i trade durante l'overlap notturno che nei dati precedenti perdeva soldi.",
+      "result": "Niente. Il Profit Factor è rimasto 0.98, il Drawdown 26%, il Payoff Ratio 1.91 e il Win Rate 34%. È come se avessimo spento una lampadina rotta sperando che la casa diventasse più luminosa, e invece è rimasta ugualmente al buio. I numeri non sono cambiati di nemmeno uno virgola.",
+      "key_concept": "",
+      "next_step": "Analizza profondamente *quale sessione vince e quale perde*, e se i parametri di entrata (non l'orario) sono davvero ottimali. Potrebbe bastare un piccolo aggiustamento ai filtri di ingresso."
+    }
   }
 ]
