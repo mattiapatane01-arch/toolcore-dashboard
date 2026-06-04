@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolCore EA — Auto-Research Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0f12;
+    --bg2: #13161b;
+    --bg3: #1a1e25;
+    --bg4: #21262f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8eaf0;
+    --text2: #8b909a;
+    --text3: #555c69;
+    --green: #1ebc8a;
+    --green-bg: rgba(30,188,138,0.1);
+    --red: #e05252;
+    --red-bg: rgba(224,82,82,0.1);
+    --amber: #f0a24a;
+    --amber-bg: rgba(240,162,74,0.1);
+    --blue: #4d9de0;
+    --blue-bg: rgba(77,157,224,0.1);
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* LAYOUT */
+  .shell { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* HEADER */
+  .topbar { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+  .topbar-left h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); }
+  .topbar-left p { font-size: 13px; color: var(--text2); margin-top: 4px; }
+  .version-badge { background: var(--blue-bg); color: var(--blue); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(77,157,224,0.2); }
+  .status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--amber); background: var(--amber-bg); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(240,162,74,0.2); margin-top: 8px; }
+  .status-pill::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--amber); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* METRICS GRID */
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  @media(max-width:700px){ .metrics { grid-template-columns: repeat(2, 1fr); } }
+  .metric-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+  .metric-label { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .metric-value { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; font-family: 'JetBrains Mono', monospace; }
+  .metric-value.good { color: var(--green); }
+  .metric-value.bad { color: var(--red); }
+  .metric-value.warn { color: var(--amber); }
+  .metric-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+  .metric-delta { font-size: 12px; margin-top: 6px; font-weight: 500; }
+  .metric-delta.up { color: var(--green); }
+  .metric-delta.down { color: var(--red); }
+
+  /* PROFIT CARD — special */
+  .profit-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+  .profit-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .profit-num { font-size: 28px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+
+  /* SECTION */
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* GATE BARS */
+  .gate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media(max-width:600px){ .gate-grid { grid-template-columns: 1fr; } }
+  .gate-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .gate-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .gate-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .gate-values { font-size: 12px; color: var(--text2); }
+  .gate-track { height: 5px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
+  .gate-fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
+
+  /* CHART */
+  .chart-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+
+  /* ITERATIONS TABLE */
+  .iter-table { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .iter-head { display: grid; grid-template-columns: 56px 1fr 72px 72px 72px 72px 80px 90px; gap: 0; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .iter-head span { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; text-align: right; }
+  .iter-head span:first-child, .iter-head span:nth-child(2) { text-align: left; }
+  .iter-row { display: grid; grid-template-columns: 56px 1fr 72px 72px 72px 72px 80px 90px; gap: 0; padding: 12px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; align-items: center; }
+  .iter-row:last-child { border-bottom: none; }
+  .iter-row:hover { background: var(--bg3); }
+  .iter-row.selected { background: rgba(77,157,224,0.06); border-left: 3px solid var(--blue); padding-left: 13px; }
+  .ver-cell { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .dot.success { background: var(--green); }
+  .dot.fail { background: var(--red); }
+  .dot.neutral { background: var(--text3); }
+  .ver-label { font-size: 12px; font-weight: 600; font-family: 'JetBrains Mono', monospace; color: var(--text2); }
+  .mod-cell { font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 12px; }
+  .num-cell { font-size: 12px; font-family: 'JetBrains Mono', monospace; text-align: right; color: var(--text2); }
+  .num-cell.good { color: var(--green); }
+  .num-cell.bad { color: var(--red); }
+  .num-cell.warn { color: var(--amber); }
+  .badge-cell { text-align: right; }
+  .badge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 20px; }
+  .badge.success { background: var(--green-bg); color: var(--green); }
+  .badge.fail { background: var(--red-bg); color: var(--red); }
+  .badge.neutral { background: var(--bg4); color: var(--text3); }
+
+  /* LEARNING PANEL */
+  .learning-panel { background: var(--bg2); border: 1px solid var(--blue); border-radius: var(--radius); padding: 20px 24px; margin-top: 16px; display: none; animation: fadeIn 0.2s ease; }
+  .learning-panel.visible { display: block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+  .lp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+  .lp-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .lp-date { font-size: 12px; color: var(--text3); margin-top: 3px; }
+  .lp-close { background: none; border: none; color: var(--text3); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 4px; }
+  .lp-close:hover { color: var(--text); }
+  .lp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media(max-width:600px){ .lp-grid { grid-template-columns: 1fr; } }
+  .lp-block h4 { font-size: 10px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .lp-block p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .lp-concept { background: var(--bg3); border-left: 3px solid var(--blue); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 12px 14px; }
+  .lp-concept .lc-label { font-size: 10px; font-weight: 500; color: var(--blue); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .lp-concept p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .lp-next { margin-top: 12px; padding: 12px 14px; background: rgba(240,162,74,0.06); border-left: 3px solid var(--amber); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .lp-next .ln-label { font-size: 10px; font-weight: 500; color: var(--amber); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .lp-next p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+  /* METRICS MINI inside learning */
+  .lp-metrics { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .lp-metric { text-align: center; }
+  .lp-metric .lm-val { font-size: 18px; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+  .lp-metric .lm-lab { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+  /* NEXT ACTION */
+  .next-card { background: var(--bg2); border: 1px solid rgba(240,162,74,0.25); border-radius: var(--radius); padding: 16px 20px; }
+  .next-card h4 { font-size: 11px; font-weight: 500; color: var(--amber); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .next-card p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+  /* LOAD ERROR */
+  .load-info { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 24px; }
+  .load-info h3 { font-size: 14px; font-weight: 500; color: var(--amber); margin-bottom: 8px; }
+  .load-info p { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .load-info code { font-family: 'JetBrains Mono', monospace; background: var(--bg4); padding: 2px 6px; border-radius: 4px; font-size: 12px; color: var(--blue); }
+
+  /* SOCIAL FOOTER */
+  .social-footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .social-footer p { font-size: 12px; color: var(--text3); }
+  .social-footer a { color: var(--blue); text-decoration: none; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- HEADER -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <h1>ToolCore EA &mdash; Auto-Research</h1>
+      <p>Loop autonomo di ottimizzazione parametri MQL5 &middot; MT5 / Pepperstone</p>
+      <div class="status-pill" id="status-pill">In ottimizzazione</div>
+    </div>
+    <div>
+      <div class="version-badge" id="version-badge">v21</div>
+    </div>
+  </div>
+
+  <!-- LOAD INFO (shown if no server — instructions) -->
+  <div class="load-info" id="load-info" style="display:none">
+    <h3>Modalità demo &mdash; dati hardcoded</h3>
+    <p>
+      Per caricare i dati reali in locale apri con un server HTTP:
+      <code>python3 -m http.server 8080</code> nella cartella del progetto,
+      poi visita <code>localhost:8080/dashboard.html</code>.<br>
+      Su Netlify funziona automaticamente — metti <code>research_log.json</code>
+      nella stessa cartella di questo file e fai il deploy.
+    </p>
+  </div>
+
+  <!-- METRIC CARDS -->
+  <div class="section">
+    <div class="section-title">Metriche correnti</div>
+    <div class="metrics">
+      <div class="metric-card">
+        <div class="metric-label">Profit Factor</div>
+        <div class="metric-value warn" id="m-pf">—</div>
+        <div class="metric-sub">target &ge; 1.35</div>
+        <div class="metric-delta" id="d-pf"></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Profitto netto</div>
+        <div class="metric-value" id="m-profit">—</div>
+        <div class="metric-sub" id="m-profit-sub">su backtest IS</div>
+        <div class="metric-delta" id="d-profit"></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Drawdown max</div>
+        <div class="metric-value bad" id="m-dd">—</div>
+        <div class="metric-sub">target &lt; 12%</div>
+        <div class="metric-delta" id="d-dd"></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Payoff ratio</div>
+        <div class="metric-value bad" id="m-pr">—</div>
+        <div class="metric-sub">target &ge; 0.90</div>
+        <div class="metric-delta" id="d-pr"></div>
+      </div>
+    </div>
+    <div class="metrics" style="margin-top:12px">
+      <div class="metric-card">
+        <div class="metric-label">Win rate</div>
+        <div class="metric-value warn" id="m-wr">—</div>
+        <div class="metric-sub">baseline v16: 29.2%</div>
+        <div class="metric-delta" id="d-wr"></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Trade totali</div>
+        <div class="metric-value" id="m-trades" style="color:var(--text)">—</div>
+        <div class="metric-sub">min. 30 validi</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Avg win</div>
+        <div class="metric-value good" id="m-aw">—</div>
+        <div class="metric-sub">baseline: €56</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Avg loss</div>
+        <div class="metric-value bad" id="m-al">—</div>
+        <div class="metric-sub">baseline: €93</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GATE BARS -->
+  <div class="section">
+    <div class="section-title">Gate di promozione</div>
+    <div class="gate-grid" id="gate-grid"></div>
+  </div>
+
+  <!-- CHART -->
+  <div class="section">
+    <div class="section-title">Evoluzione per iterazione</div>
+    <div class="chart-card">
+      <div style="position:relative;width:100%;height:200px">
+        <canvas id="pfChart" role="img" aria-label="Grafico evoluzione Profit Factor e Profitto netto per ogni iterazione">Grafico PF e profitto per iterazione</canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ITERATIONS -->
+  <div class="section">
+    <div class="section-title">Iterazioni — clicca per il learning</div>
+    <div class="iter-table">
+      <div class="iter-head">
+        <span>Ver.</span>
+        <span>Modifica</span>
+        <span>PF</span>
+        <span>DD%</span>
+        <span>Payoff</span>
+        <span>WR%</span>
+        <span>Profitto</span>
+        <span>Esito</span>
+      </div>
+      <div id="iter-list"></div>
+    </div>
+    <div class="learning-panel" id="learning-panel">
+      <div class="lp-header">
+        <div>
+          <div class="lp-title" id="lp-title"></div>
+          <div class="lp-date" id="lp-date"></div>
+        </div>
+        <button class="lp-close" onclick="closePanel()">&#x2715;</button>
+      </div>
+      <div class="lp-metrics" id="lp-metrics"></div>
+      <div class="lp-grid">
+        <div class="lp-block">
+          <h4>Cosa abbiamo fatto</h4>
+          <p id="lp-what"></p>
+        </div>
+        <div class="lp-block">
+          <h4>Cosa &egrave; successo</h4>
+          <p id="lp-result"></p>
+        </div>
+      </div>
+      <div class="lp-concept">
+        <div class="lc-label">Concetto chiave</div>
+        <p id="lp-concept"></p>
+      </div>
+      <div class="lp-next">
+        <div class="ln-label">Prossimo passo</div>
+        <p id="lp-next"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEXT ACTION -->
+  <div class="next-card" id="next-card">
+    <h4>&#9654; Prossima iterazione suggerita</h4>
+    <p id="next-text">Caricamento...</p>
+  </div>
+
+  <div class="social-footer">
+    <p>ToolCore EA Auto-Research &mdash; Mattia Patan&egrave; &copy; 2026</p>
+    <a href="#" id="footer-link">Loop attivo</a>
+  </div>
+
+</div>
+
+<script>
+/* ───────────────────────────────────────────────
+   DATI FALLBACK (hardcoded per Netlify senza server)
+   L'AI aggiorna SOLO research_log.json — non questo file
+   ─────────────────────────────────────────────── */
+const FALLBACK_DATA = [
+  {"iteration":16,"version":"v16","date":"2026-06-04","modification":"Baseline — fix compilazione errori v15","metrics":{"PF":0.74,"DD_percent":38.68,"payoff_ratio":2.84,"win_rate":29.2,"trade_count":137,"net_profit_eur":-596,"avg_win_eur":56,"avg_loss_eur":93,"corr_mfe":0.39},"status":"fail","kept":false,"learning":{"what":"Corretti errori di compilazione del codice originale v15. Punto di partenza obbligatorio prima di ottimizzare qualsiasi cosa.","result":"PF=0.74, DD=38.68%. L'EA perde. I dati MAE/MFE rivelano però che 108 trade su 137 uscivano in Stop Loss nonostante avessero raggiunto un profitto medio di 3R. Caso peggiore: USDJPY aveva raggiunto +34R e poi tornato a SL a -407€.","key_concept":"MFE (Maximum Favorable Excursion): è il massimo guadagno raggiunto da un trade prima di chiudersi. Se un trade ha MFE=3R ma chiude in perdita, non c'era nessun meccanismo per bloccare quel guadagno.","next_step":"Serve un trailing stop per i T2 runner."}},
+  {"iteration":17,"version":"v17","date":"2026-06-04","modification":"Trailing stop T2 runner (attivazione 2R)","metrics":{"PF":0.72,"DD_percent":30.83,"payoff_ratio":1.21,"win_rate":29.5,"trade_count":137,"net_profit_eur":-620,"avg_win_eur":48,"avg_loss_eur":93,"corr_mfe":0.35},"status":"fail","kept":false,"learning":{"what":"Aggiunto trailing stop per i trade T2. Quando un T2 raggiunge 2R di profitto, inizia a seguire il prezzo con uno stop mobile basato sull'ATR.","result":"Il Payoff è crollato da 2.84 a 1.21. Bug sottile: la condizione isT2 includeva per errore anche i trade T1, tagliando i vincitori prima del loro TP naturale.","key_concept":"Bug di logica booleana: una condizione A OR B include tutto ciò che soddisfa A o B. Volevamo solo A (T2), ma abbiamo scritto A OR B includendo anche B (T1).","next_step":"Correggere la condizione: isT2 deve essere SOLO T2, mai T1."}},
+  {"iteration":18,"version":"v18","date":"2026-06-04","modification":"Fix condizione isT2 — rimosso T1","metrics":{"PF":0.84,"DD_percent":30.26,"payoff_ratio":2.02,"win_rate":29.8,"trade_count":137,"net_profit_eur":-430,"avg_win_eur":62,"avg_loss_eur":88,"corr_mfe":0.70},"status":"success","kept":true,"learning":{"what":"Una sola riga cambiata: rimosso T1 dalla condizione isT2. Ora il trailing si applica solo ai T2 runner.","result":"PF 0.75→0.84, DD 30.83→30.26%, Payoff torna a 2.02. Dato chiave: corr_mfe da 0.39 a 0.70.","key_concept":"Correlazione MFE: se corr_mfe=1.0, ogni euro di potenziale viene catturato perfettamente. Prima eravamo a 0.39 (quasi casuali). Ora 0.70.","next_step":"42 trade T1 avevano MFE≥1R ma chiudevano al SL. Serve protezione per il runner T1."}},
+  {"iteration":19,"version":"v19","date":"2026-06-04","modification":"Trailing T1 post-partial TP (1.1R)","metrics":{"PF":0.84,"DD_percent":30.26,"payoff_ratio":2.02,"win_rate":29.8,"trade_count":137,"net_profit_eur":-430,"avg_win_eur":62,"avg_loss_eur":88,"corr_mfe":0.70},"status":"neutral","kept":false,"learning":{"what":"Aggiunto trailing stop per i T1 dopo il partial TP, attivazione a 1.1R.","result":"PF identico a v18. Zero effetto. Bug architetturale: CheckPartialTP era dentro un gate M15 che in backtest non veniva mai superato — il partial TP non veniva mai eseguito.","key_concept":"Gate temporali nel backtest: se metti tutta la logica dentro il gate M15, anche operazioni che dovrebbero girare ogni tick vengono eseguite raramente. Separa logica ogni-tick da ogni-candela.","next_step":"Spostare CheckPartialTP e ManageTrailingStructural fuori dal gate M15, in OnTick()."}},
+  {"iteration":20,"version":"v20","date":"2026-06-04","modification":"Fix architetturale — OnTick()","metrics":{"PF":0.98,"DD_percent":26.0,"payoff_ratio":2.10,"win_rate":34.0,"trade_count":140,"net_profit_eur":-87,"avg_win_eur":71,"avg_loss_eur":85,"corr_mfe":0.78},"status":"success","kept":true,"learning":{"what":"Spostato CheckPartialTP() e ManageTrailingStructural() in OnTick(). Modifica minima, impatto massimo.","result":"PF 0.84→0.98 (+17%), DD 30.26→26.0% (-14%), WR 29.2→34.0% (+5pp). Primo backtest davvero valido.","key_concept":"OnTick() vs gate candela: mettere la gestione degli stop nel gate M15 significava che lo stop si muoveva solo ogni 15 minuti. Gli stop devono girare in OnTick(), sempre.","next_step":"Analizzare MAE/MFE v20 per coppia e sessione. DD al 26% ancora troppo alto."}},
+  {"iteration":21,"version":"v21","date":"2026-06-04","modification":"Filtro notte: 23:00 → 22:00 GMT","metrics":{"PF":0.98,"DD_percent":26.0,"payoff_ratio":2.10,"win_rate":34.0,"trade_count":140,"net_profit_eur":-87,"avg_win_eur":71,"avg_loss_eur":85,"corr_mfe":0.78},"status":"neutral","kept":false,"learning":{"what":"Spostato il filtro notte da 23:00 a 22:00 GMT, per escludere l'ora di bassa liquidità.","result":"Assolutamente nulla. Numeri identici al millesimo. L'ora 22-23 non genera trade rilevanti nel campione testato.","key_concept":"Ottimizzare il nulla: una modifica corretta non è necessariamente utile. Prima di toccare un filtro temporale, verifica quanti trade cadono davvero in quell'intervallo.","next_step":"Ignorare i filtri temporali. Analizzare quale coppia o sessione pesa di più sulle perdite."}}
+];
+
+const GATES = [
+  { label: 'Profit Factor', key: 'PF', target: 1.35, min: 0.5, unit: '', higherBetter: true },
+  { label: 'Drawdown max', key: 'DD_percent', target: 12, max: 45, unit: '%', higherBetter: false },
+  { label: 'Payoff ratio', key: 'payoff_ratio', target: 0.90, min: 0, unit: '', higherBetter: true },
+  { label: 'Win rate', key: 'win_rate', target: 50, min: 20, unit: '%', higherBetter: true }
+];
+
+const NEXT_ACTIONS = {
+  "fail":    "Il backtest non ha superato i gate minimi. Rollback eseguito. Analisi in corso per identificare la causa del peggioramento.",
+  "neutral": "La modifica era neutra — nessun impatto. Prossima ipotesi: analizzare la distribuzione dei trade per coppia e sessione per identificare dove concentrare l'ottimizzazione.",
+  "success": "Progresso registrato. Prossima priorità: ridurre il DD che è ancora al 26% (target <12%). Candidato: filtro USDJPY (coppia con perdite peggiori in v16)."
+};
+
+let allData = [];
+let selectedIdx = -1;
+let pfChart = null;
+
+async function loadData() {
+  try {
+    const res = await fetch('./research_log.json');
+    if (!res.ok) throw new Error('not found');
+    allData = await res.json();
+  } catch(e) {
+    document.getElementById('load-info').style.display = 'block';
+    allData = FALLBACK_DATA;
+  }
+  render();
+}
+
+function render() {
+  if (!allData.length) return;
+  const last = allData[allData.length - 1];
+  const first = allData[0];
+  const m = last.metrics;
+  const mf = first.metrics;
+
+  document.getElementById('version-badge').textContent = last.version;
+
+  const setMetric = (id, val, unit, decimals, classMap) => {
+    const el = document.getElementById(id);
+    el.textContent = (typeof val === 'number' ? val.toFixed(decimals) : val) + (unit || '');
+    if (classMap) { el.className = 'metric-value ' + (classMap(val) || ''); }
+  };
+
+  const pfColor = v => v >= 1.35 ? 'good' : v >= 1.0 ? 'warn' : 'bad';
+  const ddColor = v => v <= 12 ? 'good' : v <= 25 ? 'warn' : 'bad';
+  const prColor = v => v >= 0.9 ? 'good' : v >= 0.6 ? 'warn' : 'bad';
+  const wrColor = v => v >= 50 ? 'good' : v >= 35 ? 'warn' : 'bad';
+  const profColor = v => v > 0 ? 'good' : v > -200 ? 'warn' : 'bad';
+
+  setMetric('m-pf', m.PF, '', 2, pfColor);
+  setMetric('m-dd', m.DD_percent, '%', 1, ddColor);
+  setMetric('m-pr', m.payoff_ratio, '', 2, prColor);
+  setMetric('m-wr', m.win_rate, '%', 1, wrColor);
+  setMetric('m-trades', m.trade_count, '', 0, null);
+  setMetric('m-aw', m.avg_win_eur, '€', 0, () => 'good');
+  setMetric('m-al', m.avg_loss_eur, '€', 0, () => 'bad');
+
+  const profEl = document.getElementById('m-profit');
+  profEl.textContent = (m.net_profit_eur >= 0 ? '+' : '') + m.net_profit_eur.toFixed(0) + '€';
+  profEl.className = 'metric-value ' + profColor(m.net_profit_eur);
+
+  const delta = (id, curr, base, decimals, unit, invertGood) => {
+    const el = document.getElementById(id);
+    if (!el || curr === base) { if(el) el.textContent=''; return; }
+    const diff = curr - base;
+    const pct = ((diff / Math.abs(base)) * 100).toFixed(1);
+    const better = invertGood ? diff < 0 : diff > 0;
+    el.textContent = (diff > 0 ? '+' : '') + diff.toFixed(decimals) + unit + ' vs baseline';
+    el.className = 'metric-delta ' + (better ? 'up' : 'down');
+  };
+  delta('d-pf', m.PF, mf.PF, 2, '', false);
+  delta('d-dd', m.DD_percent, mf.DD_percent, 1, '%', true);
+  delta('d-pr', m.payoff_ratio, mf.payoff_ratio, 2, '', false);
+  delta('d-wr', m.win_rate, mf.win_rate, 1, '%', false);
+  delta('d-profit', m.net_profit_eur, mf.net_profit_eur, 0, '€', false);
+
+  renderGates(m);
+  renderChart();
+  renderIterations();
+  document.getElementById('next-text').textContent = NEXT_ACTIONS[last.status] || '';
+}
+
+function renderGates(m) {
+  const grid = document.getElementById('gate-grid');
+  grid.innerHTML = '';
+  GATES.forEach(g => {
+    const val = m[g.key];
+    let pct, color;
+    if (g.higherBetter) {
+      const min = g.min || 0;
+      pct = Math.min(100, Math.max(0, ((val - min) / (g.target - min)) * 100));
+      color = val >= g.target ? '#1ebc8a' : val >= g.target * 0.75 ? '#f0a24a' : '#e05252';
+    } else {
+      const max = g.max || g.target * 3;
+      pct = Math.min(100, Math.max(0, ((max - val) / (max - g.target)) * 100));
+      color = val <= g.target ? '#1ebc8a' : val <= g.target * 1.5 ? '#f0a24a' : '#e05252';
+    }
+    const reached = g.higherBetter ? val >= g.target : val <= g.target;
+    grid.innerHTML += `
+      <div class="gate-card">
+        <div class="gate-header">
+          <span class="gate-name">${g.label} ${reached ? '&#x2713;' : ''}</span>
+          <span class="gate-values" style="color:${color}">${val.toFixed(g.unit==='%'?1:2)}${g.unit} &nbsp;/&nbsp; ${g.target}${g.unit}</span>
+        </div>
+        <div class="gate-track"><div class="gate-fill" style="width:${pct.toFixed(1)}%;background:${color}"></div></div>
+      </div>`;
+  });
+}
+
+function renderChart() {
+  const labels = allData.map(d => d.version);
+  const pfData = allData.map(d => d.metrics.PF);
+  const profitData = allData.map(d => d.metrics.net_profit_eur);
+  const pointColors = allData.map(d => d.status === 'success' ? '#1ebc8a' : d.status === 'fail' ? '#e05252' : '#555c69');
+
+  if (pfChart) pfChart.destroy();
+  pfChart = new Chart(document.getElementById('pfChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Profit Factor',
+          data: pfData,
+          borderColor: '#4d9de0',
+          backgroundColor: 'rgba(77,157,224,0.06)',
+          tension: 0.3,
+          pointRadius: 6,
+          pointBackgroundColor: pointColors,
+          pointBorderColor: pointColors,
+          borderWidth: 2,
+          fill: true,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Profitto netto (€)',
+          data: profitData,
+          borderColor: '#1ebc8a',
+          borderDash: [5,4],
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: '#1ebc8a',
+          borderWidth: 1.5,
+          fill: false,
+          yAxisID: 'y2'
+        },
+        {
+          label: 'Target PF 1.35',
+          data: labels.map(() => 1.35),
+          borderColor: 'rgba(240,162,74,0.4)',
+          borderDash: [3,5],
+          pointRadius: 0,
+          borderWidth: 1,
+          yAxisID: 'y'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#13161b',
+          borderColor: 'rgba(255,255,255,0.1)',
+          borderWidth: 1,
+          titleColor: '#8b909a',
+          bodyColor: '#e8eaf0',
+          callbacks: {
+            label: ctx => {
+              if (ctx.dataset.label === 'Target PF 1.35') return null;
+              if (ctx.dataset.label === 'Profitto netto (€)') return ' Profitto: ' + ctx.parsed.y.toFixed(0) + '€';
+              return ' PF: ' + ctx.parsed.y.toFixed(2);
+            }
+          }
+        }
+      },
+      scales: {
+        x: { ticks: { font:{size:11}, color:'#555c69' }, grid: { color:'rgba(255,255,255,0.04)' } },
+        y: { position:'left', min:0.5, max:1.6, ticks:{font:{size:11},color:'#555c69',count:4,callback:v=>v.toFixed(2)}, grid:{color:'rgba(255,255,255,0.04)'} },
+        y2: { position:'right', ticks:{font:{size:11},color:'#1ebc8a',callback:v=>v.toFixed(0)+'€'}, grid:{display:false} }
+      }
+    }
+  });
+}
+
+function renderIterations() {
+  const list = document.getElementById('iter-list');
+  list.innerHTML = '';
+  allData.forEach((it, i) => {
+    const m = it.metrics;
+    const pfC = m.PF >= 1.35 ? 'good' : m.PF >= 1.0 ? '' : 'bad';
+    const ddC = m.DD_percent <= 12 ? 'good' : m.DD_percent <= 25 ? '' : 'bad';
+    const profitStr = (m.net_profit_eur >= 0 ? '+' : '') + m.net_profit_eur.toFixed(0) + '€';
+    const profC = m.net_profit_eur > 0 ? 'good' : m.net_profit_eur > -200 ? 'warn' : 'bad';
+    const badgeLabel = it.status === 'success' ? '✓ Tenuto' : it.status === 'fail' ? '✗ Rollback' : '— Neutro';
+    const row = document.createElement('div');
+    row.className = 'iter-row';
+    row.dataset.idx = i;
+    row.innerHTML = `
+      <div class="ver-cell"><span class="dot ${it.status}"></span><span class="ver-label">${it.version}</span></div>
+      <div class="mod-cell">${it.modification}</div>
+      <div class="num-cell ${pfC}">${m.PF.toFixed(2)}</div>
+      <div class="num-cell ${ddC}">${m.DD_percent.toFixed(1)}%</div>
+      <div class="num-cell">${m.payoff_ratio.toFixed(2)}</div>
+      <div class="num-cell">${m.win_rate.toFixed(1)}%</div>
+      <div class="num-cell ${profC}">${profitStr}</div>
+      <div class="badge-cell"><span class="badge ${it.status}">${badgeLabel}</span></div>`;
+    row.addEventListener('click', () => togglePanel(i, row));
+    list.appendChild(row);
+  });
+}
+
+function togglePanel(i, row) {
+  const panel = document.getElementById('learning-panel');
+  if (selectedIdx === i) { closePanel(); return; }
+  selectedIdx = i;
+  document.querySelectorAll('.iter-row').forEach(r => r.classList.remove('selected'));
+  row.classList.add('selected');
+  const it = allData[i];
+  const m = it.metrics;
+  const l = it.learning;
+  document.getElementById('lp-title').textContent = it.version + ' — ' + it.modification;
+  document.getElementById('lp-date').textContent = it.date;
+  document.getElementById('lp-what').textContent = l.what;
+  document.getElementById('lp-result').textContent = l.result;
+  document.getElementById('lp-concept').textContent = l.key_concept;
+  document.getElementById('lp-next').textContent = l.next_step;
+  const profStr = (m.net_profit_eur >= 0 ? '+' : '') + m.net_profit_eur.toFixed(0) + '€';
+  const profColor = m.net_profit_eur > 0 ? '#1ebc8a' : m.net_profit_eur > -200 ? '#f0a24a' : '#e05252';
+  document.getElementById('lp-metrics').innerHTML = `
+    <div class="lp-metric"><div class="lm-val" style="color:${m.PF>=1.35?'#1ebc8a':m.PF>=1?'#f0a24a':'#e05252'}">${m.PF.toFixed(2)}</div><div class="lm-lab">PF</div></div>
+    <div class="lp-metric"><div class="lm-val" style="color:${profColor}">${profStr}</div><div class="lm-lab">Profitto</div></div>
+    <div class="lp-metric"><div class="lm-val" style="color:${m.DD_percent<=12?'#1ebc8a':m.DD_percent<=25?'#f0a24a':'#e05252'}">${m.DD_percent.toFixed(1)}%</div><div class="lm-lab">DD max</div></div>
+    <div class="lp-metric"><div class="lm-val" style="color:#8b909a">${m.payoff_ratio.toFixed(2)}</div><div class="lm-lab">Payoff</div></div>
+    <div class="lp-metric"><div class="lm-val" style="color:#8b909a">${m.win_rate.toFixed(1)}%</div><div class="lm-lab">Win rate</div></div>
+    <div class="lp-metric"><div class="lm-val" style="color:#8b909a">${m.trade_count}</div><div class="lm-lab">Trade</div></div>
+    <div class="lp-metric"><div class="lm-val" style="color:#1ebc8a">+${m.avg_win_eur}€</div><div class="lm-lab">Avg win</div></div>
+    <div class="lp-metric"><div class="lm-val" style="color:#e05252">-${m.avg_loss_eur}€</div><div class="lm-lab">Avg loss</div></div>`;
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function closePanel() {
+  selectedIdx = -1;
+  document.querySelectorAll('.iter-row').forEach(r => r.classList.remove('selected'));
+  document.getElementById('learning-panel').classList.remove('visible');
+}
+
+loadData();
+</script>
+</body>
+</html>
