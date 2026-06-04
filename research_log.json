@@ -302,5 +302,34 @@
       "key_concept": "",
       "next_step": "Verifica se questi miglioramenti funzionano anche con dati recenti del mercato (out-of-sample), perché a volte un EA si comporta bene nel passato ma male nel presente."
     }
+  },
+  {
+    "iteration": 26,
+    "version": "v26",
+    "date": "2026-06-04",
+    "modification": "[RULE-BASED v26] RiskPercent 0.7→0.49% (DD=0.0%)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.22,
+      "DD_percent": 15.95,
+      "payoff_ratio": 1.951,
+      "win_rate": 38.54,
+      "trade_count": 96,
+      "net_profit_eur": 1,
+      "avg_win_eur": 202,
+      "avg_loss_eur": -104,
+      "corr_mfe": 0.68
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.452,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'Expert Advisor nella versione v26, probabilmente aggiustando qualche parametro o logica di trading per cercare di migliorare le performance.",
+      "result": "Praticamente nulla. Tutti i numeri sono rimasti identici (Profit Factor 1.22, Max Drawdown 15.9%, Payoff Ratio 1.95, Win Rate 38.5%). È come se avessimo spostato i mobili in casa ma il valore della casa rimanesse lo stesso — abbiamo fatto fatica per zero risultati.",
+      "key_concept": "",
+      "next_step": "Nella prossima iterazione, prova a fare cambiamenti più significativi (non aggiustamenti minori). Oppure verifica se il problema è nella logica di entrata/uscita piuttosto che nei parametri numerici."
+    }
   }
 ]
