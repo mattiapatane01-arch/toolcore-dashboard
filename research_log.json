@@ -244,5 +244,34 @@
       "key_concept": "",
       "next_step": "Analizza profondamente *quale sessione vince e quale perde*, e se i parametri di entrata (non l'orario) sono davvero ottimali. Potrebbe bastare un piccolo aggiustamento ai filtri di ingresso."
     }
+  },
+  {
+    "iteration": 24,
+    "version": "v24",
+    "date": "2026-06-04",
+    "modification": "[RULE-BASED v24] Rimuovi USDCHF dalla lista simboli (WR=21.6%, -1583 EUR)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.98,
+      "DD_percent": 26.0,
+      "payoff_ratio": 1.909,
+      "win_rate": 34.01,
+      "trade_count": 147,
+      "net_profit_eur": -148,
+      "avg_win_eur": 179,
+      "avg_loss_eur": -94,
+      "corr_mfe": 0.69
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.363,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'Expert Advisor v24 rispetto alla versione precedente, probabilmente aggiustando alcuni parametri o la logica delle entrate/uscite.",
+      "result": "Praticamente nulla. Tutti i numeri rimangono identici: Profit Factor 0.98, Max Drawdown 26%, Payoff Ratio 1.91, Win Rate 34%. È come se avessi cambiato la ricetta di un dolce ma il risultato in bocca fosse esattamente lo stesso — la modifica non ha avuto effetto.",
+      "key_concept": "",
+      "next_step": "Prima di modificare ancora il codice, analizza quale parte del sistema sta creando il Profit Factor negativo (1 significa break-even). Cerca i trade in perdita e capisci perché accadono, piuttosto che fare aggiustamenti a caso."
+    }
   }
 ]
