@@ -1029,6 +1029,31 @@
     }
   },
   {
+    "iteration": 55,
+    "version": "v55",
+    "date": "2026-06-05",
+    "modification": "[RULE-BASED v55] RiskPercent 0.35→0.24% (DD troppo basso, loop senza AI)",
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.86,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 253.43,
+      "avg_win_eur": 44,
+      "avg_loss_eur": 24,
+      "corr_mfe": 0.6
+    },
+    "status": "fail",
+    "kept": false,
+    "learning": {
+      "what": "Riduzione RiskPercent 0.35→0.24% generata dal fallback rule-based (AI non disponibile per bug ANTHROPIC_API_KEY nel subprocess).",
+      "result": "PF=1.31, DD=2.74%, Trades=58. Metriche identiche a v43-v45. La riduzione del rischio non aumenta i trade né migliora il PF.",
+      "key_concept": "Iterazione di diagnostica: il loop stava usando la API key esaurita invece del piano Pro OAuth. Fix: rimuovere ANTHROPIC_API_KEY dall'env del subprocess.",
+      "next_step": "Con il fix ANTHROPIC_API_KEY applicato, le iterazioni successive useranno AI reale per proposte significative."
+    }
+  },
+  {
     "iteration": 56,
     "version": "v56",
     "date": "2026-06-05",
@@ -1084,6 +1109,35 @@
       "result": "Il Drawdown è migliorato (da 2.7% a 2.5%) e il Payoff Ratio è salito (da 1.86 a 1.91), segno che quando vinciamo, vinciamo meglio. Però il Win Rate è sceso da 41.4% a 39.0%, e il Profit Factor — il vero \"voto\" del sistema — è peggiorato da 1.31 a 1.22. È come un ristorante che migliora i piatti top ma serve meno clienti: la qualità sale, i guadagni totali scendono.",
       "key_concept": "",
       "next_step": "Prova ad allentare leggermente il filtro introdotto in v57 per recuperare Win Rate senza sacrificare troppo il Payoff Ratio — un piccolo passo indietro potrebbe portare il Profit Factor sopra 1.31."
+    }
+  },
+  {
+    "iteration": 58,
+    "version": "v58",
+    "date": "2026-06-05",
+    "modification": "Ripristina g_SwingN_M15 da 4 a 3 (v57 ha peggiorato PF da 1.32 a 1.22) e abbassa g_SL_Buffer_Pips da 15 a 10 per combinare con ATR mult già attivo",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 253,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.871,
+    "advocate_verdict": "MODIFY — Il ripristino di g_SwingN_M15 da 4 a 3 è giustificato dai dati (v57 ha degradato PF 1.32→1.22) e dovrebbe essere applica",
+    "fresh_eyes_verdict": "PROCEED — Ripristinare g_SwingN_M15 da 4 a 3 è logicamente coerente: se l'aumento a 4 ha ridotto PF da 1.32 a 1.22 filtrando trade",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA per cambiare le condizioni di ingresso o uscita dai trade, cercando di migliorare le sue performance generali.",
+      "result": "Il Profit Factor è salito da 1.22 a 1.31 — ottimo, l'EA è diventato più redditizio nel complesso. Anche il Win Rate è migliorato: ora vince il 41.4% delle volte contro il 39% di prima. Però il Payoff Ratio è sceso da 1.91 a 1.86, il che significa che le singole operazioni vincenti \"pesano\" leggermente meno rispetto a quelle perdenti — come se vincessimo più spesso, ma con premi un po' più piccoli.",
+      "key_concept": "",
+      "next_step": "Analizza perché il drawdown è salito leggermente al 2.7% e valuta se la modifica ha reso l'EA più aggressivo nelle entrate; potrebbe valere la pena testare un filtro aggiuntivo per contenere le perdite consecutive."
     }
   }
 ]
