@@ -505,5 +505,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 31,
+    "version": "v31",
+    "date": "2026-06-05",
+    "modification": "PRIORITÀ 1: aggiungi EURUSD alla lista simboli (trade count=30 < 60, leva principale su trade count)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.12,
+      "DD_percent": 3.05,
+      "payoff_ratio": 1.76,
+      "win_rate": 38.89,
+      "trade_count": 36,
+      "net_profit_eur": 62,
+      "avg_win_eur": 41,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.82
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.788,
+    "advocate_verdict": "MODIFY — Il target alla PRIORITÀ 1 richiede esplicitamente 'EURUSD CON filtro ADX D1>=20', ma il diff modifica solo g_SymbolsCSV ",
+    "fresh_eyes_verdict": "MODIFY — EURUSD è effettivamente il simbolo corretto secondo l'obiettivo e la leva #1 sul trade count, quindi la direzione è gius",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'Expert Advisor v31 per cercare di migliorare come il sistema decide quando entrare e uscire dalle operazioni.",
+      "result": "Il Profit Factor è crollato da 1.36 a 1.12 (guadagniamo sempre meno per ogni euro perso), e il Max Drawdown è peggiorato da 2.8% a 3.0%. È come aver tolto il freno da un'auto: sì, il motore va più forte (Payoff Ratio sale da 1.68 a 1.76), ma il conducente perde il controllo più spesso (Win Rate scende da 44.8% a 38.9%).",
+      "key_concept": "",
+      "next_step": "Torna alla logica di v30 e cerca di migliorare la Win Rate mantenendo il Profit Factor solido. Focalizzati su qualità degli ingressi, non su grandezza dei profitti."
+    }
   }
 ]
