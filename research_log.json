@@ -418,5 +418,34 @@
       "key_concept": "",
       "next_step": "Controlla se questo sistema tiene quando il mercato cambia direzione bruscamente. Verifica anche se 29 trade sono abbastanza per confermare il miglioramento."
     }
+  },
+  {
+    "iteration": 30,
+    "version": "v30",
+    "date": "2026-06-05",
+    "modification": "[RULE-BASED v30] RiskPercent 0.34→0.24% (DD=0.0%)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.36,
+      "DD_percent": 2.83,
+      "payoff_ratio": 1.677,
+      "win_rate": 44.83,
+      "trade_count": 29,
+      "net_profit_eur": 138,
+      "avg_win_eur": 40,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.79
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.886,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo modificato il codice del nostro EA per gestire meglio il rischio durante le operazioni di trading, probabilmente cambiando come calcola la dimensione delle posizioni o come esce dalle operazioni in perdita.",
+      "result": "Esattamente quello che speravamo! Il Profit Factor è salito da 1.35 a 1.36 (guadagniamo un po' di più), e soprattutto il Max Drawdown è crollato da 4.0% a 2.8% — è come se avessimo messo le \"cinture di sicurezza\" al nostro robot. Il Payoff Ratio è anche leggermente migliorato (1.67 → 1.68), ma la percentuale di operazioni vincenti è rimasta uguale (44.8%).",
+      "key_concept": "",
+      "next_step": "Controlla se questa riduzione del drawdown rimane stabile su altri periodi di mercato, e verifica che il numero di trade (29) sia sufficiente per fidarsi dei risultati."
+    }
   }
 ]
