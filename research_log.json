@@ -940,5 +940,34 @@
       "key_concept": "",
       "next_step": ""
     }
+  },
+  {
+    "iteration": 52,
+    "version": "v52",
+    "date": "2026-06-05",
+    "modification": "[RULE-BASED v52] RiskPercent 0.35→0.24% (DD=0.0%)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 253,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.871,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "",
+      "result": "",
+      "key_concept": "",
+      "next_step": ""
+    }
   }
 ]
