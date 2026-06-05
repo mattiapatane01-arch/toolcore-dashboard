@@ -1056,5 +1056,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 57,
+    "version": "v57",
+    "date": "2026-06-05",
+    "modification": "Estende il time-based exit da 48 a 72 candele M15 modificando g_SwingN_M15 da 3 a 4 per ridurre i trade chiusi troppo presto",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.22,
+      "DD_percent": 2.54,
+      "payoff_ratio": 1.909,
+      "win_rate": 38.98,
+      "trade_count": 59,
+      "net_profit_eur": 188,
+      "avg_win_eur": 45,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.61
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.846,
+    "advocate_verdict": "PROCEED (retry) — Il diff proposto cambia solo il commento inline di g_SwingN_M15 (da una stringa lunga a una abbreviata), lasciando il va",
+    "fresh_eyes_verdict": "PROCEED (retry) — La patch proposta non modifica nulla di funzionale: old_code e new_code sono identici (entrambi contengono g_SwingN_M15=",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA, probabilmente cambiando un filtro o una condizione di ingresso/uscita per rendere il sistema più selettivo nelle operazioni.",
+      "result": "Il Drawdown è migliorato (da 2.7% a 2.5%) e il Payoff Ratio è salito (da 1.86 a 1.91), segno che quando vinciamo, vinciamo meglio. Però il Win Rate è sceso da 41.4% a 39.0%, e il Profit Factor — il vero \"voto\" del sistema — è peggiorato da 1.31 a 1.22. È come un ristorante che migliora i piatti top ma serve meno clienti: la qualità sale, i guadagni totali scendono.",
+      "key_concept": "",
+      "next_step": "Prova ad allentare leggermente il filtro introdotto in v57 per recuperare Win Rate senza sacrificare troppo il Payoff Ratio — un piccolo passo indietro potrebbe portare il Profit Factor sopra 1.31."
+    }
   }
 ]
