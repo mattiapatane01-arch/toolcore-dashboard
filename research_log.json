@@ -534,5 +534,34 @@
       "key_concept": "",
       "next_step": "Torna alla logica di v30 e cerca di migliorare la Win Rate mantenendo il Profit Factor solido. Focalizzati su qualità degli ingressi, non su grandezza dei profitti."
     }
+  },
+  {
+    "iteration": 34,
+    "version": "v34",
+    "date": "2026-06-05",
+    "modification": "PRIORITÀ 3: MinScore 75→70 per aumentare trade count (36<60) ora che EURUSD è già in lista",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 253,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.871,
+    "advocate_verdict": "MODIFY — La patch è formalmente autorizzata (MinScore 75→70 con trade<60 dopo EURUSD, range non coperto dal DO_NOT_RETRY 60→72), ",
+    "fresh_eyes_verdict": "PROCEED — La patch soddisfa esattamente la condizione autorizzata dal target (MinScore 75→70 SOLO se trade count <60 dopo EURUSD):",
+    "learning": {
+      "what": "Abbiamo aggiustato il codice del nostro robot di trading per fargli prendere decisioni migliori su quando comprare e vendere. Probabilmente abbiamo modificato i parametri di entrata o di gestione del rischio.",
+      "result": "Il Profit Factor è salito a 1.31 (+17%) e il Max Drawdown è sceso da 3.0% a 2.7%. È come se il robot fosse diventato sia più profittevole che più prudente allo stesso tempo — vince più operazioni (dal 38.9% al 41.4%) e ogni vittoria vale di più (Payoff Ratio: 1.86 vs 1.76).",
+      "key_concept": "",
+      "next_step": "Verifica che questi risultati reggono anche con dati più recenti e in mercati diversi. A volte la v34 funziona bene solo per caso sui dati che abbiamo testato!"
+    }
   }
 ]
