@@ -1,0 +1,10 @@
+{
+  "diff_desc": "Aumenta g_SwingN_H4 da 5 a 7 per filtrare swing H4 meno significativi e ridurre entry su false breakout",
+  "old_code": "input int    g_SwingN_H4          = 5;    // N candele swing H4",
+  "new_code": "input int    g_SwingN_H4          = 7;    // N candele swing H4 — v59: 5→7 per swing più significativi e riduzione false breakout",
+  "rationale": "L'analisi MAE/MFE mostra trade che vanno subito in perdita senza mai tornare favorevoli (tk18/17 MAE=2.342 MFE=0.188, tk39/38 MAE=1.399 MFE=0.000, tk27 MAE=2.759 MFE=0.223): questi sono entry su swing H4 deboli che si rivelano immediatamente falsi. Aumentare g_SwingN_H4 da 5 a 7 richiede un livello swing più robusto (conferma su più candele), filtrando questi entry di bassa qualità. Non tocca RiskPercent (rispetta PRIORITÀ 4 con 58 trade < 120), non ripete fix già provati, è ortogonale a tutte le modifiche precedenti.",
+  "sub_verdicts": {
+    "devil_advocate": "PROCEED (retry) — Lo storico mostra che v53 (0.24→0.5%) ha prodotto PF=1.32 e v56 (0.24→0.5%) è stata marcata come FIX GIÀ PROVATO — ripro",
+    "fresh_eyes": "PROCEED (retry) — La patch viola esplicitamente PRIORITÀ 4 e la regola 'NON FARE MAI': RiskPercent va alzato SOLO dopo ≥120 trade su 4 ann"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "diff_desc": "PRIORITÀ 3: MinScore 75→70 per aumentare trade count (36<60) ora che EURUSD è già in lista",
+  "old_code": "input double g_MinScore           = 75.0; // Score minimo apertura — filtro qualità elevata",
+  "new_code": "input double g_MinScore           = 70.0; // 75->70: trade count 36<60 dopo EURUSD, sblocco gate trade IS (target Priorità 3)",
+  "rationale": "EURUSD è già aggiunto (v31) ma il trade count resta 36 < 60, il gate bloccante primario. Il target autorizza MinScore 75→70 ESATTAMENTE in questa condizione (trade count <60 dopo EURUSD). È un fix di Priorità 3 mai provato (DO_NOT_RETRY copre solo 60→72, non 75→70) e a basso overfitting: abbassa la soglia di qualità di soli 5 punti per generare i ~24 trade mancanti senza toccare sizing, exit o sessioni proibite (OV resta escluso). Sblocca il requisito Trade IS≥60 necessario prima di poter validare PF e alzare RiskPercent.",
+  "sub_verdicts": {
+    "devil_advocate": "MODIFY — La patch è formalmente autorizzata (MinScore 75→70 con trade<60 dopo EURUSD, range non coperto dal DO_NOT_RETRY 60→72), ",
+    "fresh_eyes": "PROCEED — La patch soddisfa esattamente la condizione autorizzata dal target (MinScore 75→70 SOLO se trade count <60 dopo EURUSD):"
+  }
+}

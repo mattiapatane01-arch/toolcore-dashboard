@@ -1,0 +1,10 @@
+{
+  "diff_desc": "Ripristina g_SwingN_M15 da 4 a 3 (v57 ha peggiorato PF da 1.32 a 1.22) e abbassa g_SL_Buffer_Pips da 15 a 10 per combinare con ATR mult già attivo",
+  "old_code": "input int    g_SwingN_M15         = 4;    // v57: swing window M15 ampliato 3->4 per ridurre trigger prematuri su noise. MAE/MFE mostra loser con bars_open brevi (tk18 121bar, tk34 530bar SL) — finestra più larga filtra swing marginali aumentando edge per trade",
+  "new_code": "input int    g_SwingN_M15         = 3;    // v58: ripristino 4->3 (v57 ha degradato PF 1.32->1.22 filtrando troppi entry validi)",
+  "rationale": "v57 ha peggiorato PF da 1.32 a 1.22 aumentando g_SwingN_M15 da 3 a 4. Il filtro più largo ha eliminato trade validi riducendo trade count (59) e PF. Ripristinare 3 recupera l'edge originale. Il trade count rimane critico (59 < 120 gate) quindi non si deve ridurre ulteriormente la frequenza di entry.",
+  "sub_verdicts": {
+    "devil_advocate": "MODIFY — Il ripristino di g_SwingN_M15 da 4 a 3 è giustificato dai dati (v57 ha degradato PF 1.32→1.22) e dovrebbe essere applica",
+    "fresh_eyes": "PROCEED — Ripristinare g_SwingN_M15 da 4 a 3 è logicamente coerente: se l'aumento a 4 ha ridotto PF da 1.32 a 1.22 filtrando trade"
+  }
+}

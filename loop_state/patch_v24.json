@@ -1,0 +1,11 @@
+{
+  "diff_desc": "[RULE-BASED v24] Rimuovi USDCHF dalla lista simboli (WR=21.6%, -1583 EUR)",
+  "old_code": "input string g_SymbolsCSV        = \"AUDUSD,NZDUSD,USDCHF,USDCAD,USDJPY\"; // Simboli monitorati separati da virgola",
+  "new_code": "input string g_SymbolsCSV        = \"AUDUSD,NZDUSD,USDJPY\"; // Simboli monitorati separati da virgola",
+  "rationale": "USDCHF: WR=21.6% (vs avg 33%), loss totale -1583 EUR su 37 trade — il simbolo con peggior contributo al PF",
+  "adversarial_concern": "Riduce diversificazione, meno trade = stat meno robuste",
+  "adversarial_response": "Con WR <25% ogni trade USDCHF ha EV negativo atteso. Meglio meno trade ma positivi.",
+  "expected_impact": "PF atteso: +0.05-0.10, DD riduzione 2-4%",
+  "source": "rule-based-fallback",
+  "_base_version": 23
+}

@@ -1,0 +1,10 @@
+{
+  "diff_desc": "Abbassa g_SwingN_D1 da 10 a 7 per aumentare il trade count catturando più swing D1 validi senza toccare sizing o SL",
+  "old_code": "input int    g_SwingN_D1          = 10;   // N candele swing D1",
+  "new_code": "input int    g_SwingN_D1          = 7;    // N candele swing D1 — v61: 10→7 per aumentare trade frequency catturando swing D1 meno restrittivi",
+  "rationale": "Il problema principale è trade count insufficiente (58 su 8 anni, target >120). Le critiche ai reviewer rifiutano modifiche al RiskPercent e al SL_Buffer. g_SwingN_D1=10 è il filtro più restrittivo non ancora toccato: richiede 10 candele di conferma swing D1, escludendo entry valide su swing leggermente meno pronunciati. Ridurlo a 7 (simile alla logica H4 a 5) dovrebbe aumentare la frequenza di entry mantenendo la qualità del segnale. Il payoff e il WR dovrebbero restare stabili perché il filtro H4+M15 rimane invariato — si allargano solo le zone swing D1 riconosciute.",
+  "sub_verdicts": {
+    "devil_advocate": "PROCEED (retry) — La patch combina due modifiche problematiche: (1) RiskPercent 0.24→0.50 è vietato dal target finché trade count < 120 su",
+    "fresh_eyes": "PROCEED (retry) — La riduzione SL_Buffer_Pips (15→10 pips) è logicamente plausibile per liberare il floor SL adattivo, ma l'impatto stimat"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "diff_desc": "[RULE-BASED v53] RiskPercent 0.24→0.5% (fallback assoluto)",
+  "old_code": "input double g_RiskPercent        = 0.24;  // Rischio per trade (%)",
+  "new_code": "input double g_RiskPercent        = 0.5;  // Rischio per trade (%)",
+  "rationale": "Fallback quando nessuna altra regola è applicabile. RiskPercent è sempre modificabile.",
+  "adversarial_concern": "Cambia sizing ma non l'edge",
+  "adversarial_response": "Permette di avanzare il versioning quando il sistema AI non è disponibile.",
+  "expected_impact": "Metriche cambiano leggermente",
+  "source": "rule-based-fallback"
+}

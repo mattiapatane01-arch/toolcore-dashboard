@@ -1,0 +1,10 @@
+{
+  "diff_desc": "Aggiungi filtro input bool g_ExcludeOV=true per bloccare completamente la sessione OV (overlap NYC-LDN). I ticket 35/37/43 falliscono proprio in OV/LDN con MAE 1.5-3.3R allo SL finale — non è un problema di trailing ma di volatilità d'ingresso su segnale borderline.",
+  "old_code": "input int    g_DailyLossLimit     = 3;    // Max SL giornalieri\ninput double g_SL_PipThreshold    = 5.0;  // Pips minimi per SL reale\ninput double g_AccountBalance     = 10000;// Capitale account",
+  "new_code": "input int    g_DailyLossLimit     = 3;    // Max SL giornalieri\ninput bool   g_ExcludeOV          = true; // Esclude overlap sessione NYC-LDN\ninput double g_SL_PipThreshold    = 5.0;  // Pips minimi per SL reale\ninput double g_AccountBalance     = 10000;// Capitale account",
+  "rationale": "Analisi dati MAE/MFE identifica causa radice vera: — Ticket 35 (NZDUSD, T1-OV): MFE=4.099R, MAE=1.596R, exit=SL, loss=-112.49€ — Ticket 37 (NZDUSD, T1-LDN): MFE=4.118R, MAE=3.376R, exit=SL, loss=-111.86€ — Ticket 43 (USDJPY, T1-NY): MFE=5.674R, MAE=3.326R, exit=SL, loss=-139.22€. Pattern: entry volatile su OV → il mercato va subito contro (MAE 1.5-3.3R) → raggiunge MFE 4-5R → inverte violentemente → SL. Reviewer Fresh Eyes corretto: MAE 1.5-3.3R >> 1.2R, trailing a 1.2R non salverebbe questi trade. La causa radice NON è il trailing exit ma l'entry di bassa conviction su overlap instabile. Soluzione: escludere OV completamente tramite CheckSession() che skippa OpenTrade se session=='OV' && g_ExcludeOV==true. Next: se ciò non risolve, v29 aumenterà MinScore 75→85 per escludere ulteriori segnali borderline.",
+  "sub_verdicts": {
+    "devil_advocate": "PROCEED (retry) — Il rationale confonde MAE (drawdown adverso dal punto d'ingresso) con il problema del trailing. Nei ticket 35/37/43, il ",
+    "fresh_eyes": "PROCEED (retry) — L'ipotesi confonde causa e sintomo. I tre ticket citati (35, 37, 43) hanno MAE rispettivamente 1.596, 3.376, 3.326R — du"
+  }
+}

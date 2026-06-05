@@ -1,0 +1,10 @@
+{
+  "diff_desc": "SL Buffer adattivo: sostituire 15pip fissi con max(10pip, ATR_H1*0.40)",
+  "old_code": "input double g_SL_Buffer_ATR_Mult = 0.0;  // ATR-adattivo DISABILITATO (mult=0 => SL usa solo floor fisso, revert v32)",
+  "new_code": "input double g_SL_Buffer_ATR_Mult = 0.40; // ATR-adattivo ABILITATO: SL = max(10pip, ATR_H1*0.40) — riduce SL su bassa volatilità",
+  "rationale": "Con g_SL_Buffer_ATR_Mult=0.0 il SL è fisso a 15pip = ~3.25x ATR su AUDUSD a bassa vol. Portando il mult a 0.40 e abbassando il floor a 10pip (modificare g_SL_Buffer_Pips da 15.0 a 10.0 in parallelo), il SL si adatta alla volatilità reale: su AUDUSD con ATR_H1~4.6pip il SL diventa max(10pip, 1.84pip)=10pip invece di 15pip fissi, riducendo la perdita per trade da ~-50 EUR a ~-33 EUR. Questo migliora direttamente PF senza toccare trade count. I trade ticket 18/17 (mae_R=2.342, SL) e 34 (mae_R=2.127, SL) mostrano perdite full-SL che sarebbero ridotte proporzionalmente.",
+  "sub_verdicts": {
+    "devil_advocate": "MODIFY — Il rationale stesso dichiara che bisogna 'abbassare il floor a 10pip (modificare g_SL_Buffer_Pips da 15.0 a 10.0 in para",
+    "fresh_eyes": "MODIFY — La logica ATR-adattiva è solida e il razionale tecnico è credibile (SL fisso sovradimensionato rispetto alla volatilità "
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "diff_desc": "Aumenta TP_RATIO da 2.0 a 2.5 per catturare più movimenti favorevoli prima del backtrack",
+  "old_code": "double TP_RATIO = 2.0;",
+  "new_code": "double TP_RATIO = 2.5;",
+  "rationale": "MAE/MFE analysis mostra pattern: moltissimi trade con MFE alto (3-5R) terminano in SL dopo backtrack. Ticket 6 (mfe=4.818, profit=-107) è emblematico. Con TP a 2.0, il target non viene raggiunto e il prezzo torna indietro. A 2.5R catturiamo il movimento virtuale prima della caduta, convertendo SL-losses in TP-wins. PF sale senza sacrificare payoff.",
+  "adversarial_response": "PF è il KPI primario (target 1.35 vs 0.98 attuale). Trade con MFE > 2.5R sono candidati forti per wins, quindi la riduzione di WR proviene principalmente da SL eliminati (desiderabile). Payoff rimane stabile. Con stima conservativa: PF salta a 1.08-1.12, DD scende a 24-25%.",
+  "sub_verdicts": {
+    "devil_advocate": "WR cala da 34% verso 30-31% perché meno trades raggiungeranno SL. Meno dati di fallimento per iterazioni future.",
+    "fresh_eyes": "PF: 0.98 → 1.08-1.15; DD: 26.0% → 24-25%; Payoff: 1.91 → 1.88-1.95; Trades: 147 → 140-145; WR: 34% → 30-32%"
+  },
+  "_base_version": 23
+}

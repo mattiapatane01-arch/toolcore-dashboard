@@ -1,0 +1,11 @@
+{
+  "diff_desc": "[RULE-BASED v29] RiskPercent 0.49→0.34% (DD=0.0%)",
+  "old_code": "input double g_RiskPercent        = 0.49;  // Rischio per trade (%)",
+  "new_code": "input double g_RiskPercent        = 0.34;  // Rischio per trade (%)",
+  "rationale": "DD=0.0% ancora sopra target. Riduzione sizing -30%.",
+  "adversarial_concern": "Meno profitto assoluto",
+  "adversarial_response": "DD scende proporzionalmente, PF invariato.",
+  "expected_impact": "DD stimato ~0.0%, PF invariato",
+  "source": "rule-based-fallback",
+  "_base_version": 28
+}

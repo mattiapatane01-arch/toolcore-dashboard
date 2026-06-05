@@ -1,0 +1,12 @@
+{
+  "diff_desc": "Disabilita T1 trades durante OV (Overlap) session — dati MAE/MFE mostrano 100% loss rate (3/3 perdenti: ticket 4, 6, 39) senza correlati vincenti",
+  "old_code": "bool bEnableT1_OV = true;  // Allow T1 trades during Overlap session",
+  "new_code": "bool bEnableT1_OV = false; // Disable T1 trades during Overlap session — OV dysfunction documented",
+  "rationale": "T1 shorts in OV generano consistenti perdite (USDCHF -99.04, USDCAD -107.13, AUDUSD -105.60) mentre T1 in altre session vincono (USDJPY +285-308 EUR). OV+T1 è dysfunction isolato — rimozione riduce perdite senza sacrificare payoff (resta 1.9)",
+  "adversarial_response": "100% loss rate supera threshold tolleranza (vs. ~34% WR globale). OV è session-specific stress test fallito — non è sample noise. Trade count rimane >120, sufficiente per validità statistica. Payoff stabile suggerisce non è difetto di signal quality ma ambiente OV incompatibile con T1 logic",
+  "sub_verdicts": {
+    "devil_advocate": "Sample size basso (n=3 OV+T1). Rischio: correlazione spuria nel dataset — futuro OV+T1 potrebbe funzionare. Trade count cala a 144 (margine statistico ridotto)",
+    "fresh_eyes": "PF: 0.98 → 1.02-1.04 | DD: 26.0% → 24.8-25.2% | Payoff: 1.9 stabile | Trades: 147 → 144 | WR: 34% → 35.2%"
+  },
+  "_base_version": 23
+}

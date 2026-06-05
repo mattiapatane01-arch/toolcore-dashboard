@@ -1,0 +1,10 @@
+{
+  "diff_desc": "EXIT-FIX ALTERNATIVO (non-ATR-SL): anticipo il trigger di Break-Even abbassando g_BE_ATR_Multiplieriplier 1.0→0.7. Diversamente da v32 (SL buffer ATR-adattivo, revertato) e v36 (trailing cap), questo lever non è mai stato toccato. Obiettivo: convertire i reversal in scratch invece che full-SL, alzando il PF senza ridurre il trade count.",
+  "old_code": "input double g_BE_ATR_Multiplieriplier  = 1.0;  // ATR M15 per BE",
+  "new_code": "input double g_BE_ATR_Multiplieriplier  = 0.7;  // 1.0->0.7: EXIT-FIX anticipo BE. La MAE/MFE v37 mostra reversal di winner (tk4 MFE3.09/MAE2.84 SL, tk21 MFE5.67/MAE3.33 SL, tk34 MFE3.39 SL@530bar): trade che corrono a favore e poi tornano a full-SL. Spostando il BE prima (0.7*ATR M15) questi chiudono a scratch invece di -1R => PF sale tagliando le code negative, senza alterare trigger/score (trade count invariato). Lever ortogonale a v32(SL buffer)/v36(trail cap)",
+  "rationale": "Risolve Avvocato Cattivo: NON ripete l'ATR_Mult adattivo di v32 né il trailing cap di v36 né i lever score/swing (v34/v35) — agisce su un parametro mai modificato (BE trigger), quindi nessuna violazione del NON-RIPETERE e nessun rischio del problema 'metriche identiche' dei revert. Risolve Fresh Eyes/target P2 (exit-fix strutturale): l'evidenza MAE/MFE documenta che i full-SL nascono da winner che reversano (MFE alto, poi SL); anticipare il BE è il fix causale corretto per il PF. Valore esplicito 0.7 (non 0, niente disabilitazioni) => basso overfitting, un solo grado di libertà. Non tocca MinScore/SwingN, quindi il trade count (58) resta stabile mentre il PF (1.31) ha headroom dal taglio delle code -1R.",
+  "sub_verdicts": {
+    "devil_advocate": "PROCEED (retry) — v32 introdusse esattamente questo ATR_Mult adattivo e fu revertato in v33 perché peggiorava il PF; ripeterlo viola il 'N",
+    "fresh_eyes": "PROCEED (retry) — La logica è solida e fedele al target P2: sostituire 15pip fissi con max(10pip, ATR_H1*0.40) è un fix strutturale ATR-ba"
+  }
+}

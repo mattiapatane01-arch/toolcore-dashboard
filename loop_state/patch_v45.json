@@ -1,0 +1,10 @@
+{
+  "diff_desc": "[RULE-BASED v45] TrailPhase1_ATR 1.1→0.9 (trailing più stretto)",
+  "old_code": "input double g_TrailPhase1_ATR       = 1.1;  // Trailing Fase1 (H1) 0→1.5R",
+  "new_code": "input double g_TrailPhase1_ATR       = 0.9;  // Trailing Fase1 (H1) 0→1.5R",
+  "rationale": "corr_mfe<0.8: trailing troppo largo lascia profitti sul tavolo.",
+  "adversarial_concern": "Trailing più stretto può chiudere runner prematuramente",
+  "adversarial_response": "corr_mfe basso indica che i runner escono troppo tardi — stringere è corretto.",
+  "expected_impact": "corr_mfe +0.05-0.10, payoff +0.1",
+  "source": "rule-based-fallback"
+}

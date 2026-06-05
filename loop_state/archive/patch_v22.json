@@ -1,0 +1,11 @@
+{
+  "diff_desc": "NightStart 22→21: restringe ulteriormente il blocco di sessioni notturne dalle 21:00 GMT",
+  "old_code": "int    NightStart      = 22;   // Inizio notte (ora)",
+  "new_code": "int    NightStart      = 21;   // Inizio notte (ora)",
+  "rationale": "v21 ha ridotto NightStart da 23→22 ma DD rimane 26.0%. Analisi MAE/MFE rivela: OV (WR=0%, ticket 4/6/39 tutti perdenti), AS notturni (WR=40%), mentre LDN (WR=100%) e NY (WR=33%) sono accettabili. La finestra 21:00-22:00 GMT è il gap critico dove Tokyo apre e NY chiude: volume basso, spread largo, slippage alto. Dati v21 contengono ancora trade AS problematici (ticket 14/19/18 perdenti). Ridurre NightStart a 21 blocca questo gap, eliminando la maggior parte dei trade OV/AS notturni a bassa qualità.",
+  "adversarial_response": "trade count 135-140 rimane ben sopra il minimo statistico (30) — valido. Analisi dati: vincitori LDN/NY (ticket 9/17/16/26/38) tendono ad aprire prima delle 21:00; perdenti OV/AS late (ticket 4/6/14/19/39) aprono dopo 21:00. Bloccare 21:00-23:59 elimina principalmente low-quality trades, non vincitori. DD improvement da 26%→23-24% è sostanziale verso il target 12%.",
+  "sub_verdicts": {
+    "devil_advocate": "Ogni riduzione di NightStart elimina ulteriori trade. devil_advocate di v21 ha segnalato che trade AS redditizi (ticket 30/31) sarebbero bloccati. NightStart=21 potrebbe ridurre trade count a ~135-140 (vs 147), avvicinandoci al limite statistico di 30. WR potrebbe scendere di 1-2pp se perdiamo entry LDN early-window.",
+    "fresh_eyes": "DD 26.0%→23-25%; PF 0.98→1.00-1.04; trade count 147→135-142; WR 34.01%→33-34%; payoff invariato ~1.9"
+  }
+}

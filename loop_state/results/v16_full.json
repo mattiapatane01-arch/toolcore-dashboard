@@ -1,0 +1,44 @@
+{
+  "version": 16,
+  "timestamp": "2026-06-04T10:57:40.329509",
+  "period": "2020.01.01→2023.12.31",
+  "metrics": {
+    "net_profit": -2.0,
+    "profit_factor": 0.74,
+    "max_drawdown_pct": 38.68,
+    "sharpe_ratio": -0.83,
+    "recovery_factor": -0.59,
+    "total_trades": 140,
+    "win_rate_pct": 20.71,
+    "avg_profit": 252.99,
+    "avg_loss": -89.21,
+    "payoff_ratio": 2.84,
+    "corr_mfe": 0.39
+  },
+  "maemfe_analysis": {
+    "total_records": 137,
+    "sl_exits": 108,
+    "tp_exits": 28,
+    "tt_exits": 1,
+    "avg_mfe_in_sl_trades": 3.03,
+    "pct_losses_with_mfe_gt_1R": 59.3,
+    "pct_losses_with_mfe_gt_2R": 46.3,
+    "T2_win_rate_pct": 12.5,
+    "T2_avg_mfe_R": 6.76,
+    "worst_waste": "USDJPY T2 mfe=34.92R → SL loss -407€"
+  },
+  "diagnosis": "ManageTrailingStructural applica trailing SOLO a TT trades. T2 runner dopo partial TP non hanno nessun trailing che protegge i profitti. Risultato: T2 con MFE>35R chiudono in perdita.",
+  "rejected_patches": [
+    "MinScore 60→72: RIGETTATA da entrambi sub-agents. Non affronta causa radice."
+  ],
+  "sub_agent_verdicts": {
+    "devil_advocate": "REJECT — MinScore è filtro entry non exit. Non risolve T2 SL.",
+    "fresh_eyes": "REJECT — EV negativo strutturale. Filtrare non cambia EV."
+  },
+  "gate_check": {
+    "pf_ok": false,
+    "dd_ok": false,
+    "payoff_ok": true,
+    "trades_ok": true
+  }
+}

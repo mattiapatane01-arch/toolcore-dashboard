@@ -1,0 +1,10 @@
+{
+  "diff_desc": "REVERT v39: RRR_Trade1 2.5→3.0. Ripristino baseline v37/v38 (PF 1.31) — il taglio del target ha distrutto i winner che corrono oltre 3R.",
+  "old_code": "input double g_RRR_Trade1         = 2.5;  // EXIT-FIX TP-side (3.0->2.5). NON tocco SL buffer (resta floor fisso 15pip, g_SL_Buffer_ATR_Mult=0) per evitare il revert v32/v33 e l'obiezione dimensionale dell'Avvocato. Razionale MAE/MFE v37/v38: numerosi T1 raggiungono MFE>=2.5R e poi rinculano a full-SL (tk4 MFE3.094->SL, tk34 MFE3.390->SL@530bar, tk21 MFE5.674->SL@840bar, tk49 MFE2.844->SL). Portando il target a 2.5R questi -1R diventano +2.5R; i winner gia' a TP sc",
+  "new_code": "input double g_RRR_Trade1         = 3.0;  // REVERT v39 (2.5->3.0): il target abbassato ha crollato PF 1.31->1.13 amputando i winner che corrono oltre 3R. La MAE/MFE conferma che i veri TP arrivano molto piu' in alto del target 2.5 (tk10 MFE5.707->TP, tk42 MFE6.457->TP, tk46 MFE4.670->TP, tk31 MFE5.085->TP): abbassare il TP NON converte i loser (quei -1R hanno MAE>2R, sono gia' compromessi prima di toccare 2.5R) ma sacrifica il fat-tail dei winner. Ripristino baseline v38 (PF1.31/DD2.7/payoff1.86) come richiesto da HANDOFF. Il vero leverage e' exit-side (trail cap in R), non TP-side.",
+  "rationale": "v39 ha peggiorato ogni metrica (PF 1.31→1.13, payoff 1.86→1.61): abbassare RRR a 2.5 non recupera i loser (hanno MAE>2R, colpiscono SL prima di 2.5R) ma decapita i winner che corrono a MFE 4.6–6.4R fino a TP pieno. Ripristinando 3.0 si torna alla baseline PF 1.31 / DD 2.7% confermata in v37/v38, base solida per applicare poi il fix exit-side ortogonale (trailing Fase2 cap in R), unica leva target non ancora realmente testata (v36 era identica per set-file non applicato).",
+  "sub_verdicts": {
+    "devil_advocate": "MODIFY — Il razionale tecnico del revert è corretto (abbassare il TP non converte loser con MAE>2R e amputa il fat-tail dei winne",
+    "fresh_eyes": "PROCEED — Il revert RRR 2.5→3.0 è giustificato dai dati: v39 ha peggiorato ogni metrica (PF 1.31→1.13, payoff 1.86→1.61) e l'evide"
+  }
+}

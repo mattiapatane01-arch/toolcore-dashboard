@@ -1,0 +1,11 @@
+{
+  "diff_desc": "NightStart 23→22: chiude il gap ora 22:xx GMT dove GetSession restituisce AS ma IsInSession non blocca",
+  "old_code": "int    NightStart      = 23;   // Inizio notte (ora)",
+  "new_code": "int    NightStart      = 22;   // Inizio notte (ora)",
+  "rationale": "GetSession() restituisce 'AS' per h >= 22 (tutto ciò che non è OV/LDN/NY cade in AS). IsInSession() blocca solo da NightStart=23 in poi. Il risultato: l'ora 22:xx GMT è taggata AS ma NON bloccata → entrano trade in sessione asiatica bassa liquidità. Dal MAE/MFE: ticket 14 (AS, MAE=5.271R!), ticket 18/19 (AS, MFE=0 = entrata istantaneamente sbagliata). Alzare NightStart a 22 allinea il gate con il confine reale della sessione NY (GetSession NY termina a h<22) eliminando l'intera fascia AS.",
+  "adversarial_response": "Il gain dal blocco supera le perdite: il singolo ticket 14 (MAE=5.271R) vale da solo ~-520€ stimati; i win AS sono spesso USDJPY che ha liquidità accettabile anche a 22:xx ma sono outlier positivi in un pattern generalmente negativo. Con 147 trade totali, rimuovere 8-12 trade AS lascia comunque >130 trade, ben sopra la soglia di 30. Il CLAUDE.md prescrive esplicitamente 'MAI aprire posizioni fuori LDN/NY (23:00-07:00 GMT)' — la regola intendeva escludere l'AS ma il valore 23 era un off-by-one rispetto al confine reale di GetSession.",
+  "sub_verdicts": {
+    "devil_advocate": "L'ora 22 include trade redditizi (ticket 30/31 USDJPY AS, entrambi profittevoli). Riduzione trade count potrebbe avvicinare al limite di validità statistica.",
+    "fresh_eyes": "DD 26%→18-21% (rimozione drawdown AS notturni); PF 0.98→1.08-1.18 (eliminazione trade a MFE=0 e MAE estremi); WR invariata o -1-2pp (persi anche alcuni win AS); trade count 147→132-138"
+  }
+}

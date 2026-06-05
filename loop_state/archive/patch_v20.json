@@ -1,0 +1,9 @@
+{
+  "diff_desc": "v20: fix gate M15 — CheckPartialTP e ManageTrailingStructural girano su ogni tick (bypassa gate interno M15/H1 di Layer5). Abilita partial TP e trailing in backtest Model=1.",
+  "old_code": "void OnTick() {\n\n   // ── NEW BAR GATE — elabora solo su nuova candela M15 ──\n   static datetime lastBar = 0;\n   datetime currentBar = iTime(_Symbol, PERIOD_M15, 0);\n   if(currentBar == lastBar) return;\n   lastBar = currentBar;",
+  "new_code": "void OnTick() {\n\n   // ── OGNI TICK: CheckPartialTP e ManageTrailingStructural ──\n   // Girano su ogni tick per vedere H/L intrabar (Model=1).\n   // Layer5 ha gate interni M15/H1 che altrimenti li bloccherebbero.\n   for(int j = 0; j < activeSymbolCount; j++) {\n      string sym = activeSymbols[j];\n      int idx = GetSymbolIndex(sym);\n      if(idx < 0 || !symbolStates[idx].systemActive) continue;\n      int dir = symbolStates[j].direction;\n      if(dir != 0) {\n         CheckPartialTP(sym, dir);\n         ManageTrailingStructural(sym, dir);\n      }\n   }\n\n   // ── GATE M15 — entry logic solo su nuova candela M15 ──\n   static datetime lastBar = 0;\n   datetime currentBar = iTime(_Symbol, PERIOD_M15, 0);\n   if(currentBar == lastBar) return;\n   lastBar = currentBar;",
+  "sub_verdicts": {
+    "devil_advocate": "MODIFY→PROCEED: fix minimale corretto, g_trading_enabled inesistente in questo EA, Layer5 gate interni riconosciuti come root cause",
+    "fresh_eyes": "MODIFY→PROCEED: approccio validato, chiamate idempotenti, Layer5 inner gates bypassati correttamente"
+  }
+}

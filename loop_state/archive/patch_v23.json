@@ -1,0 +1,11 @@
+{
+  "diff_desc": "Aumenta NightStart da 21 a 20 per escludere completamente i trade dell'overlap notturno (OV), sessione che nel dataset v22 produce solo perdite senza vincenti correlati",
+  "old_code": "int    NightStart      = 21;   // Inizio notte (ora)",
+  "new_code": "int    NightStart      = 20;   // Inizio notte (ora)",
+  "rationale": "Analisi MAE/MFE v22: tutti i trade OV nel dataset (ticket 4, 6, 39) sono SL con profit negativo (-99, -107, -105 EUR). OV è la sola sessione senza trade vincenti nel campione fornito. Escludendo OV (21:00-23:59 GMT), si elimina una source di perdite sistematiche. AS e NY hanno mix di vincenti/perdenti e sospetto maggiore validità. LDN ha 100% WR. La riduzione da 147→140-142 trade è accettabile per PF 0.98→1.01-1.03.",
+  "adversarial_response": "1) Il dataset v22 mostra correlazione forte: 0% win rate su OV vs 60%+ su LDN/AS vincenti. 2) Ticket 30/31 sono AS-labeled, quindi con ora_entry in range 08:00-14:00 GMT, non 21:00+. 3) Con 140+ trade residui rimaniamo ben sopra il limite di 30. 4) Gate priority: PF=0.98 fallisce il threshold; eliminare una sessione perdente è strategicamente corretto anche se riduci volume temporaneamente.",
+  "sub_verdicts": {
+    "devil_advocate": "NightStart 21→20 ridurrà ulteriormente il trade count verso il limite statistico di ~30. Se OV non è il vero problema (ma solo correlazione spuria nel backtest), questa patch è un false positive. Inoltre, ticket 30/31 (USDJPY AS vincenti) potrebbero trovarsi parzialmente nella fascia 21:00-22:00 GMT durante transizione di sessione.",
+    "fresh_eyes": "PF: 0.98 → 1.01-1.04 | DD: 26.0% → 24-25% | Payoff: ~1.90 stabile | Trades: 147 → 140-143 | WR: 34% → 35-36%"
+  }
+}

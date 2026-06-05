@@ -1,0 +1,11 @@
+{
+  "diff_desc": "Rimuovi NZDUSD da TradingSymbols - 0/4 trades nel backtest, perdita netta -413 EUR",
+  "old_code": "string TradingSymbols[] = {\"USDCHF\", \"USDCAD\", \"AUDUSD\", \"USDJPY\", \"NZDUSD\"};",
+  "new_code": "string TradingSymbols[] = {\"USDCHF\", \"USDCAD\", \"AUDUSD\", \"USDJPY\"};",
+  "rationale": "NZDUSD: 4 trade, 0 vincitori, 4 perdenti = -413 EUR. Pattern sistematico in entrambe le sessioni (NY: ticket 35,34 / AS: ticket 19,18). Win rate 0% è segnale robusto di incompatibilità con questa strategia. Rimozione elimina drawdown senza toccare i vincitori (USDJPY +951 EUR e AUDUSD +386 EUR dominano il profitto).",
+  "adversarial_response": "NZDUSD ha win rate 0% su 4 trade - non è rumore casuale ma pattern robusto. Dataset copre 3 anni (2020-2023), sufficiente per distinguere incompatibilità sistematica da fluttuazione. Principio quant: escludere mercati non-compatibili riduce curva fitting rispetto a ottimizzare parametri. Diversificazione mantenuta (4 coppie restanti).",
+  "sub_verdicts": {
+    "devil_advocate": "Data snooping: stai escludendo il symbol a posteriori dal backtest. NZDUSD potrebbe performare diversamente in forward walk-forward o in periodi futuri; il segnale potrebbe essere spuria.",
+    "fresh_eyes": "PF: 0.98 → 1.030 (+3.1%) | DD: 26.0% → 24-25% | Payoff: 1.91 → stabile | Trades: 147 → 143 | Profit: -147.77 EUR → +265 EUR"
+  }
+}

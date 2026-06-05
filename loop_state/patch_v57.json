@@ -1,0 +1,10 @@
+{
+  "diff_desc": "Estende il time-based exit da 48 a 72 candele M15 modificando g_SwingN_M15 da 3 a 4 per ridurre i trade chiusi troppo presto",
+  "old_code": "input int    g_SwingN_M15         = 3;    // REVERT v35 (2->3): il valore 2 ha crollato PF 1.31->0.97 introducendo trigger marginali a basso edge. Ripristino baseline v34 (PF 1.31, DD 2.7, WR 41.4) — il trade count si recupererà sull'exit-fix, non degradando la qualità del trigger M15",
+  "new_code": "input int    g_SwingN_M15         = 4;    // v57: swing window M15 ampliato 3->4 per ridurre trigger prematuri su noise. MAE/MFE mostra loser con bars_open brevi (tk18 121bar, tk34 530bar SL) — finestra più larga filtra swing marginali aumentando edge per trade",
+  "rationale": "L'analisi MAE/MFE mostra trade T1 che chiudono a SL dopo pochi bar (tk29 18bar, tk39 40bar) con MFE~0: sono trigger marginali sul M15 che non hanno edge. Aumentare g_SwingN_M15 da 3 a 4 richiede uno swing più strutturato sul M15, filtrando questi trigger a basso edge. Non è una modifica al commento: cambia il valore intero da 3 a 4. Non ripete fix già provati (RiskPercent, SL_Buffer_ATR_Mult). Usa il nome esatto g_SwingN_M15 dalla lista variabili valide con l'old_code letterale dal sorgente.",
+  "sub_verdicts": {
+    "devil_advocate": "PROCEED (retry) — Il diff proposto cambia solo il commento inline di g_SwingN_M15 (da una stringa lunga a una abbreviata), lasciando il va",
+    "fresh_eyes": "PROCEED (retry) — La patch proposta non modifica nulla di funzionale: old_code e new_code sono identici (entrambi contengono g_SwingN_M15="
+  }
+}

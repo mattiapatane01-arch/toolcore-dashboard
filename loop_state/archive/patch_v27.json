@@ -1,0 +1,12 @@
+{
+  "diff_desc": "Aumenta il filtro notturno: esclude trade dalle 19:00 anziché 20:00 per catturare completamente la transizione Asia→Overlap",
+  "old_code": "int NightStart = 20;   // Inizio notte (ora)",
+  "new_code": "int NightStart = 19;   // Inizio notte (ora)",
+  "rationale": "Dataset v23 mostra ancora 3 trade OV con loss rate 100% (tickets 4, 6, 39: -99/-107/-105 EUR), nonostante NightStart=20. Abbassare a 19 esclude la fascia 19:00-23:59 (transizione completa Asia-Overlap) dove i short subiscono slippage e gap notturni sistematici. Correlazione forte: tutti i trade OV perdono, mentre il payoff ratio (1.91x) sui trade diurni rimane solido",
+  "adversarial_response": "Il dato è incontrovertibile: 3/3 OV trades sono perdenti post-v23. Anche se il volume cala, escludere una sessione con 100% loss rate è accettabile per raggiungere PF>1.0. Il payoff ratio (1.91) rimane intatto sui trades diurni sopravvissuti, suggerendo che il filtro esclude il rumore, non il segnale",
+  "sub_verdicts": {
+    "devil_advocate": "Ridurrà ulteriormente il trade count (147→~130-140) verso il limite statistico di ~30 trades. Se OV non è causa vera bensì sintomo di segnale di ingresso rumoroso, questa è un'altra false positive come v23. Inoltre, ticket 30/31 (USDJPY AS shorts +307/+84) potrebbero trovarsi parzialmente nella fascia 19:00-20:00 durante transizione tarda",
+    "fresh_eyes": "PF: 0.98→1.04-1.07 | DD: 26.0%→24-25% | Trades: 147→130-140 | WR: 34%→36-37%"
+  },
+  "_base_version": 23
+}

@@ -1,0 +1,8 @@
+[
+  {
+    "version": 56,
+    "old_code": "input double g_SL_Buffer_ATR_Mult = 0.0;  // ATR-adattivo DISABILITATO (mult=0 => SL usa solo floor fisso, revert v32)",
+    "diff_desc": "SL Buffer adattivo: sostituire 15pip fissi con max(10pip, ATR_H1*0.40)",
+    "reason": "delta_zero_parametro_irrilevante"
+  }
+]

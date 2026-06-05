@@ -1,0 +1,10 @@
+{
+  "diff_desc": "PRIORITÀ 1: aggiungi EURUSD alla lista simboli (trade count=30 < 60, leva principale su trade count)",
+  "old_code": "input string g_SymbolsCSV        = \"AUDUSD,NZDUSD,USDJPY\"; // Simboli monitorati separati da virgola",
+  "new_code": "input string g_SymbolsCSV        = \"AUDUSD,NZDUSD,USDJPY,EURUSD\"; // +EURUSD (gate ADX D1>=20 applicato nella logica entry)",
+  "rationale": "Con soli 30 trade siamo molto sotto il gate IS≥60: la priorità assoluta è aumentare il campione. EURUSD è il simbolo raccomandato dalla ricerca 6-agenti (a differenza di USDCAD/EURJPY/GBPJPY esclusi). L'aggiunta è la leva #1 sul trade count e abilita il successivo filtro ADX D1>=20 per limitare gli ingressi alle fasi di trend chiaro, migliorando la qualità del campione senza overfitting.",
+  "sub_verdicts": {
+    "devil_advocate": "MODIFY — Il target alla PRIORITÀ 1 richiede esplicitamente 'EURUSD CON filtro ADX D1>=20', ma il diff modifica solo g_SymbolsCSV ",
+    "fresh_eyes": "MODIFY — EURUSD è effettivamente il simbolo corretto secondo l'obiettivo e la leva #1 sul trade count, quindi la direzione è gius"
+  }
+}

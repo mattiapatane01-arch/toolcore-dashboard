@@ -1,0 +1,10 @@
+{
+  "diff_desc": "PRIORITÀ 2 (exit fix): SL buffer adattivo ATR-based invece di 15pip fissi",
+  "old_code": "input double g_SL_Buffer_Pips     = 15.0; // Buffer minimo SL pips",
+  "new_code": "input double g_SL_Buffer_Pips     = 10.0; // Floor minimo SL pips (usato come max(10pip, ATR_H1*0.40) nella logica SL)\ninput double g_SL_Buffer_ATR_Mult = 0.40; // Moltiplicatore ATR_H1 per buffer SL adattivo",
+  "rationale": "Le righe MAE/MFE mostrano perdite SL con MAE 2.2-4.4R (es. ticket 35 mae=4.357, ticket 2 mae=2.835): lo stop fisso 15pip vale ~3.25x ATR su AUDUSD/EURUSD, troppo largo, e amplifica la singola perdita pesando sul PF. Introducendo il floor a 10pip + moltiplicatore ATR_H1*0.40 il buffer scala con la volatilità reale del simbolo (zero overfitting, parametri da ricerca), riducendo l'ampiezza delle perdite e alzando il PF verso il gate 1.35 senza toccare RiskPercent prima dei 60 trade. Non ripete fix già falliti (SL 15→8 fisso era sintomo, qui è causa radice adattiva).",
+  "sub_verdicts": {
+    "devil_advocate": "MODIFY — L'intento è allineato a PRIORITÀ 2 (SL buffer ATR-based, zero overfitting), ma la patch è incompleta: cambiare g_SL_Buff",
+    "fresh_eyes": "MODIFY — La logica di fondo è solida e allineata a PRIORITÀ 2: un buffer SL adattivo max(10pip, ATR_H1*0.40) riduce lo stop fisso"
+  }
+}

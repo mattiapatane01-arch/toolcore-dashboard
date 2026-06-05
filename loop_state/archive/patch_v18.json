@@ -1,0 +1,9 @@
+{
+  "diff_desc": "Fix bug v17: isT2 ora include SOLO T2, non T1 (T1 non devono ricevere trailing strutturale)",
+  "old_code": "      bool isT2 = (StringFind(comment, \"T2\") == 0 || StringFind(comment, \"T1\") == 0);",
+  "new_code": "      bool isT2 = (StringFind(comment, \"T2\") == 0);",
+  "sub_verdicts": {
+    "devil_advocate": "PROCEED — fix chirurgica e corretta",
+    "fresh_eyes": "PROCEED — verificare che CheckPartialTP scriva T2 nel comment"
+  }
+}

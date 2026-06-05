@@ -1,0 +1,10 @@
+{
+  "diff_desc": "PRIORITÀ TRADE-COUNT (gate primario): g_SwingN_M15 3→2 per aumentare la sensibilità dello swing detection sul timeframe di trigger (M15), generando più segnali di entry. Trades=58 è a soli 2 dal gate (60). A differenza di v32 (che toccò g_SwingN_D1, livello strutturale macro che cambia il bias direzionale), agire su M15 aggiunge trigger di ingresso SENZA alterare il filtro di trend D1/H4 né la logica di exit.",
+  "old_code": "input int    g_SwingN_M15         = 3;    // N candele swing M15",
+  "new_code": "input int    g_SwingN_M15         = 2;    // 3->2: +sensibilità swing M15 (trigger entry), trade count 58<60 gate IS — agisce solo sul livello micro/trigger, NON sul bias D1 (≠v32)",
+  "rationale": "Risponde direttamente a entrambe le critiche. Fresh Eyes: il blocco prioritario è il trade count (58<60) e questa patch AGGIUNGE trade riducendo la soglia di swing sul TF di trigger M15, avvicinando al gate-step prioritario invece di agire sull'exit. Avvocato Cattivo: non si basa sulla premessa empiricamente falsa dell'exit-fix sui T2 (i T2 ad alto MFE chiudono già in TT); qui non si tocca affatto l'exit. La distinzione critica vs v32 (DO_NOT_RETRY): v32 ridusse g_SwingN_D1, alterando il filtro macro di trend e degradando la qualità (PF 0.83). M15 è il livello di esecuzione/trigger: più swing point → più finestre di entry valide entro il bias già filtrato da D1/H4 e MinScore=70, preservando payoff (1.86) e DD (2.74%). Costo basso, reversibile, attacca il gate primario non ancora superato.",
+  "sub_verdicts": {
+    "devil_advocate": "PROCEED (retry) — La premessa è empiricamente falsa: nei dati MAE/MFE i T2 ad alto MFE (5=+20.97, 22=+17.68, 43=+16.41) chiudono già in pr",
+    "fresh_eyes": "PROCEED (retry) — Il blocco primario è il trade count (36<60 IS), e questa patch non aggiunge alcun trade — agisce solo sull'exit, quindi "
+  }
+}

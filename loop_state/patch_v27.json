@@ -1,0 +1,10 @@
+{
+  "diff_desc": "La patch precedente (SL 15→8 pips) affronta il SINTOMO (tight stop) anziché la CAUSA RADICE. Fresh Eyes individua il vero problema: MAE 2-4R su trade stoppati indica setup di bassa qualità, non 'rumore'. v27 aumenta il filtro di qualità (MinScore 60→75) per escludere gli entry borderline con alto rischio di avversità. Questo ridurrà i trade totali ma migliorerà il ratio vincenti/persi e la robustezza.",
+  "old_code": "input double g_MinScore           = 60.0; // Score minimo apertura",
+  "new_code": "input double g_MinScore           = 75.0; // Score minimo apertura — filtro qualità elevata",
+  "rationale": "Tickets 4,5,8,33,35,37,43,47,48 mostrano MAE 1.6-4.0R prima dello SL: è selezione di trade weak, non execution. Uno SL più stretto non evita un movimento avverso di 3-4R; aumentare MinScore scarta gli entry con score basso (probabile bassa qualità di setup). Trade count diminuisce ma WR e PF aumentano perché restano solo setup robust. Aligned alla diagnosi di Fresh Eyes: il problema è selectivity, non stop management.",
+  "sub_verdicts": {
+    "devil_advocate": "PROCEED (retry) — 1. CONTRADDIZIONE LOGICA: Ticket 4,5,8,33,35,37,43,47,48 hanno MAE 2-4R ma sono già persi (exit_reason=SL). Se MAE è 3-4",
+    "fresh_eyes": "PROCEED (retry) — La logica confonde MAE (Maximum Adverse Excursion) con 'rumore SL': i dati mostrano MAE=2-4R su trade stoppati, il che i"
+  }
+}

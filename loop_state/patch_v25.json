@@ -1,0 +1,11 @@
+{
+  "diff_desc": "[RULE-BASED v25] Riduzione RiskPercent 1.0→0.7 (simboli cattivi già rimossi)",
+  "old_code": "input double g_RiskPercent        = 1.0;  // Rischio per trade (%)",
+  "new_code": "input double g_RiskPercent        = 0.7;  // Rischio per trade (%)",
+  "rationale": "USDCHF/USDCAD già rimossi. Riduzione sizing riduce DD proporzionalmente.",
+  "adversarial_concern": "Meno profitto assoluto",
+  "adversarial_response": "DD 26% → ~18%, più vicino al target.",
+  "expected_impact": "DD -25%, PF neutro/+",
+  "source": "rule-based-fallback",
+  "_base_version": 24
+}
