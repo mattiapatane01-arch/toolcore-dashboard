@@ -563,5 +563,34 @@
       "key_concept": "",
       "next_step": "Verifica che questi risultati reggono anche con dati più recenti e in mercati diversi. A volte la v34 funziona bene solo per caso sui dati che abbiamo testato!"
     }
+  },
+  {
+    "iteration": 35,
+    "version": "v35",
+    "date": "2026-06-05",
+    "modification": "PRIORITÀ TRADE-COUNT (gate primario): g_SwingN_M15 3→2 per aumentare la sensibilità dello swing detection sul timeframe di trigger (M15), generando più segnali di entry. Trades=58 è a soli 2 dal gate (60). A differenza di v32 (che toccò g_SwingN_D1, livello strutturale macro che cambia il bias direzionale), agire su M15 aggiunge trigger di ingresso SENZA alterare il filtro di trend D1/H4 né la logica di exit.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.97,
+      "DD_percent": 2.21,
+      "payoff_ratio": 1.736,
+      "win_rate": 35.94,
+      "trade_count": 64,
+      "net_profit_eur": -25,
+      "avg_win_eur": 40,
+      "avg_loss_eur": -23,
+      "corr_mfe": 0.73
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.767,
+    "advocate_verdict": "PROCEED (retry) — La premessa è empiricamente falsa: nei dati MAE/MFE i T2 ad alto MFE (5=+20.97, 22=+17.68, 43=+16.41) chiudono già in pr",
+    "fresh_eyes_verdict": "PROCEED (retry) — Il blocco primario è il trade count (36<60 IS), e questa patch non aggiunge alcun trade — agisce solo sull'exit, quindi ",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'Expert Advisor per ridurre il drawdown massimo (le perdite più grosse durante il trading).",
+      "result": "Il drawdown è calato da 2,7% a 2,2% (bene!), ma il Profit Factor è crollato da 1,31 a 0,97 (male!). È come avere una macchina che consuma meno carburante, ma che ora viaggia più lentamente e guadagna meno strada. Abbiamo guadagnato sicurezza, ma perso redditività: il sistema ha iniziato a perdere più soldi di quanti ne guadagnasse.",
+      "key_concept": "",
+      "next_step": "Nella prossima iterazione, cerca di ridurre il drawdown in modo più intelligente: invece di limitare tutti i trade, prova a sceglierne solo i migliori. Non sacrificare il guadagno totale sull'altare della sicurezza."
+    }
   }
 ]
