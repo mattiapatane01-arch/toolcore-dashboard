@@ -1027,5 +1027,34 @@
       "key_concept": "",
       "next_step": ""
     }
+  },
+  {
+    "iteration": 56,
+    "version": "v56",
+    "date": "2026-06-05",
+    "modification": "SL Buffer adattivo: sostituire 15pip fissi con max(10pip, ATR_H1*0.40)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 253,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.871,
+    "advocate_verdict": "MODIFY — Il rationale stesso dichiara che bisogna 'abbassare il floor a 10pip (modificare g_SL_Buffer_Pips da 15.0 a 10.0 in para",
+    "fresh_eyes_verdict": "MODIFY — La logica ATR-adattiva è solida e il razionale tecnico è credibile (SL fisso sovradimensionato rispetto alla volatilità ",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v56.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v55 (PF=1.310, DD=2.740%, Trades=58). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
