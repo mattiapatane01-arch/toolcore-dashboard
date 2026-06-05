@@ -708,5 +708,34 @@
       "key_concept": "",
       "next_step": "Torna alla v38 e prova modifiche molto piccole e isolate. Cambia una sola cosa alla volta, così capirai davvero cosa ha rotto il sistema."
     }
+  },
+  {
+    "iteration": 40,
+    "version": "v40",
+    "date": "2026-06-05",
+    "modification": "REVERT v39: RRR_Trade1 2.5→3.0. Ripristino baseline v37/v38 (PF 1.31) — il taglio del target ha distrutto i winner che corrono oltre 3R.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.26,
+      "DD_percent": 2.67,
+      "payoff_ratio": 1.919,
+      "win_rate": 39.56,
+      "trade_count": 91,
+      "net_profit_eur": 334,
+      "avg_win_eur": 46,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.67
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.855,
+    "advocate_verdict": "MODIFY — Il razionale tecnico del revert è corretto (abbassare il TP non converte loser con MAE>2R e amputa il fat-tail dei winne",
+    "fresh_eyes_verdict": "PROCEED — Il revert RRR 2.5→3.0 è giustificato dai dati: v39 ha peggiorato ogni metrica (PF 1.31→1.13, payoff 1.86→1.61) e l'evide",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA per cambiare come seleziona e gestisce i suoi trade — probabilmente rendendo più severi i criteri di entrata o migliorando il sistema di uscita.",
+      "result": "Esattamente quello che speravamo! Il Profit Factor è salito da 1.13 a 1.26 (significa che guadagniamo 1,26€ per ogni euro perso), il Drawdown è sceso dal 3,3% al 2,7% e il Payoff Ratio è migliorato — tradotto: ogni trade vincente ci guadagna il 19% in più rispetto a prima. L'unico \"prezzo\" pagato? Abbiamo vinto meno trade (41,4% → 39,6%), ma quelli che abbiamo vinto erano più forti.",
+      "key_concept": "",
+      "next_step": "Monitora se questo miglioramento tiene anche con dati più recenti (out-of-sample). Verifica che il calo della win rate non nascondi periodi di perdite consecutive lunghe."
+    }
   }
 ]
