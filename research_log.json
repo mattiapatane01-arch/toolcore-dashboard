@@ -1139,5 +1139,34 @@
       "key_concept": "",
       "next_step": "Analizza perché il drawdown è salito leggermente al 2.7% e valuta se la modifica ha reso l'EA più aggressivo nelle entrate; potrebbe valere la pena testare un filtro aggiuntivo per contenere le perdite consecutive."
     }
+  },
+  {
+    "iteration": 59,
+    "version": "v59",
+    "date": "2026-06-05",
+    "modification": "Aumenta g_SwingN_H4 da 5 a 7 per filtrare swing H4 meno significativi e ridurre entry su false breakout",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.93,
+      "DD_percent": 3.42,
+      "payoff_ratio": 1.858,
+      "win_rate": 33.33,
+      "trade_count": 66,
+      "net_profit_eur": -73,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -23,
+      "corr_mfe": 0.77
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.702,
+    "advocate_verdict": "PROCEED (retry) — Lo storico mostra che v53 (0.24→0.5%) ha prodotto PF=1.32 e v56 (0.24→0.5%) è stata marcata come FIX GIÀ PROVATO — ripro",
+    "fresh_eyes_verdict": "PROCEED (retry) — La patch viola esplicitamente PRIORITÀ 4 e la regola 'NON FARE MAI': RiskPercent va alzato SOLO dopo ≥120 trade su 4 ann",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA, probabilmente cambiando un filtro o una condizione di entrata a mercato per cercare di migliorare le performance.",
+      "result": "Il risultato è stato l'opposto. Il Profit Factor è crollato da 1.31 a 0.93 — e questo è critico, perché sotto 1.0 significa che l'EA **perde più di quanto guadagna**. Il Win Rate è sceso dal 41% al 33%, e il Drawdown (la perdita massima subita) è peggiorato dal 2.7% al 3.4%. È come cambiare il filtro del caffè pensando di ottenere un espresso più buono, e ritrovarsi con acqua sporca.",
+      "key_concept": "",
+      "next_step": "Prova a rimuovere o allentare la modifica applicata in v59 e testa una variazione più conservativa. Confronta su un campione più ampio di trade per capire se il problema è nel filtro stesso o nella sua soglia."
+    }
   }
 ]
