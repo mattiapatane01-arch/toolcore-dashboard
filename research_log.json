@@ -679,5 +679,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 39,
+    "version": "v39",
+    "date": "2026-06-05",
+    "modification": "EXIT-FIX via TP-side (non-SL-buffer): abbasso RRR_Trade1 3.0→2.5 per convertire i winner che corrono oltre +2.5R e poi rinculano a full-SL in chiusure TP. Lever ortogonale a SL buffer (v32/v33), BE (v38) e trail cap (v36).",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.13,
+      "DD_percent": 3.28,
+      "payoff_ratio": 1.605,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 107,
+      "avg_win_eur": 38,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.5
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.782,
+    "advocate_verdict": "PROCEED (retry) — v32 ('SL buffer adattivo ATR-based invece di 15pip fissi') è proprio questa modifica: attivare g_SL_Buffer_ATR_Mult e ab",
+    "fresh_eyes_verdict": "PROCEED (retry) — La patch implementa esattamente la formula del target Priorità 2 (max(10pip, ATR_H1*0.40)), con razionale dimensionale c",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA v39, probabilmente cambiando i parametri di entrata o gestione del rischio rispetto alla versione precedente (v38).",
+      "result": "Purtroppo la modifica ha **peggiorato tutto**. Il Profit Factor è crollato da 1.31 a 1.13 (guadagniamo molto meno per ogni euro rischiato), il Max Drawdown è aumentato da 2.7% a 3.3% (il portafoglio ha sofferto più perdite), e il Payoff Ratio è sceso da 1.86 a 1.61. È come aver aggiustato il motore di un'auto pensando di farla andare più veloce, ma invece ha iniziato a consumare più carburante e andare più lentamente.",
+      "key_concept": "",
+      "next_step": "Torna alla v38 e prova modifiche molto piccole e isolate. Cambia una sola cosa alla volta, così capirai davvero cosa ha rotto il sistema."
+    }
   }
 ]
