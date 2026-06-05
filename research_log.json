@@ -882,5 +882,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 50,
+    "version": "v50",
+    "date": "2026-06-05",
+    "modification": "[RULE-BASED v50] RiskPercent 0.24→0.5% (fallback assoluto)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.32,
+      "DD_percent": 5.7,
+      "payoff_ratio": 1.865,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 554,
+      "avg_win_eur": 96,
+      "avg_loss_eur": -51,
+      "corr_mfe": 0.6
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.751,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "",
+      "result": "",
+      "key_concept": "",
+      "next_step": ""
+    }
   }
 ]
