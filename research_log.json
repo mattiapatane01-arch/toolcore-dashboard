@@ -737,5 +737,34 @@
       "key_concept": "",
       "next_step": "Monitora se questo miglioramento tiene anche con dati più recenti (out-of-sample). Verifica che il calo della win rate non nascondi periodi di perdite consecutive lunghe."
     }
+  },
+  {
+    "iteration": 41,
+    "version": "v41",
+    "date": "2026-06-05",
+    "modification": "EXIT-FIX risk-asymmetric via Break-Even (NON SL-buffer): abbasso g_BE_ATR_Multiplieriplier 0.7→0.5 per anticipare lo spostamento dello stop a pareggio. Risponde direttamente alla critica dell'Avvocato Cattivo: a differenza dello SL buffer (con RiskPercent costante la size si adatta e la loss resta ~-1R), spostare il BE PRIMA converte i loser-da-reversal in chiusura a ~0R (scratch a entry), riducendo realmente l'entità della perdita in EUR perché la posizione esce al prezzo di ingresso, non allo SL.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.26,
+      "DD_percent": 2.67,
+      "payoff_ratio": 1.919,
+      "win_rate": 39.56,
+      "trade_count": 91,
+      "net_profit_eur": 334,
+      "avg_win_eur": 46,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.67
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.855,
+    "advocate_verdict": "PROCEED (retry) — Il razionale 'riduce l'entità delle perdite' è fisicamente falso: con RiskPercent costante la size si adatta allo SL e o",
+    "fresh_eyes_verdict": "PROCEED (retry) — La patch implementa esattamente il fix di PRIORITÀ 2 specificato nell'obiettivo (SL buffer = max(10pip, ATR_H1*0.40)), u",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v41.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v40 (PF=1.260, DD=2.670%, Trades=91). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
