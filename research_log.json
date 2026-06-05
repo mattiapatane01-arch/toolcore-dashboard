@@ -592,5 +592,34 @@
       "key_concept": "",
       "next_step": "Nella prossima iterazione, cerca di ridurre il drawdown in modo più intelligente: invece di limitare tutti i trade, prova a sceglierne solo i migliori. Non sacrificare il guadagno totale sull'altare della sicurezza."
     }
+  },
+  {
+    "iteration": 36,
+    "version": "v36",
+    "date": "2026-06-05",
+    "modification": "PRIORITÀ 2 (exit fix conforme al target) — Trailing Fase2 cap basato su ATR: stringo il moltiplicatore di trailing ATR della Fase2 (g_BE_ATR_MultiplierV16) da 2.0 a 1.5, allineandolo alla prescrizione 'cap = min(1.5*ATR_H4, 1.2*SL_dist)'. NON tocco il partial TP (rifiutato) e NON riattivo l'SL-buffer ATR-adattivo di v32 (resta floor fisso 15pip). Agisce SOLO sulla logica di trailing che lascia tornare in SL i runner con MFE elevato.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.97,
+      "DD_percent": 2.21,
+      "payoff_ratio": 1.736,
+      "win_rate": 35.94,
+      "trade_count": 64,
+      "net_profit_eur": -25,
+      "avg_win_eur": 40,
+      "avg_loss_eur": -23,
+      "corr_mfe": 0.73
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.767,
+    "advocate_verdict": "PROCEED (retry) — Questa NON è la Priorità 2 prescritta: il target definisce il fix exit come 'Trailing Fase2 cap = min(1.5*ATR_H4, 1.2*SL",
+    "fresh_eyes_verdict": "PROCEED (retry) — La diagnosi (molti loser raggiungono MFE 1-6R poi tornano in SL) è plausibile e supportata dai ticket citati, ma la Prio",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v36.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v35 (PF=0.970, DD=2.210%, Trades=64). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
