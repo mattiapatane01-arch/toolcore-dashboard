@@ -1168,5 +1168,34 @@
       "key_concept": "",
       "next_step": "Prova a rimuovere o allentare la modifica applicata in v59 e testa una variazione più conservativa. Confronta su un campione più ampio di trade per capire se il problema è nel filtro stesso o nella sua soglia."
     }
+  },
+  {
+    "iteration": 60,
+    "version": "v60",
+    "date": "2026-06-05",
+    "modification": "Ripristina g_SwingN_H4 da 7 a 5 (v59 ha distrutto PF 1.31→0.93 con filtro H4 troppo restrittivo)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 253,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.871,
+    "advocate_verdict": "PROCEED — La patch è corretta e necessaria: v59 ha dimostrato empiricamente che g_SwingN_H4=7 distrugge il PF (1.31→0.93) filtrand",
+    "fresh_eyes_verdict": "PROCEED — Il rollback di g_SwingN_H4 da 7 a 5 è logicamente solido: l'aumento ha causato un crollo netto del PF (1.31→0.93) e del ",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'Expert Advisor per cambiare il modo in cui seleziona i trade da eseguire. In pratica, abbiamo reso il sistema più \"selettivo\" su quando entrare nel mercato.",
+      "result": "I risultati sono stati ottimi su tutti i fronti. Il Profit Factor è passato da 0.93 a 1.31 — immagina di scommettere 1€ e recuperarne 93 centesimi (perdita) contro recuperarne 1,31€ (guadagno). Anche il Drawdown (la perdita massima che il conto ha subito prima di riprendersi) è sceso dal 3.4% al 2.7%, e il Win Rate è salito dal 33% al 41%.",
+      "key_concept": "",
+      "next_step": "Verifica se questi risultati reggono su un campione più ampio di trade (58 potrebbero essere pochi per conclusioni definitive). Prova a testare il sistema su un periodo diverso per escludere l'overfitting."
+    }
   }
 ]
