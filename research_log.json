@@ -766,5 +766,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 42,
+    "version": "v42",
+    "date": "2026-06-05",
+    "modification": "EXIT-FIX via BE-LOCK (sub-leva NON ancora toccata): alzo g_BE_PipBuffer 1.0→3.0 per LOCCARE +3 pip di profitto quando il Break-Even scatta, invece di chiudere a scratch esatto. Non tocco g_BE_ATR_Multiplieriplier (=0.5, già al valore v41) né l'SL-buffer.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.26,
+      "DD_percent": 2.67,
+      "payoff_ratio": 1.919,
+      "win_rate": 39.56,
+      "trade_count": 91,
+      "net_profit_eur": 334,
+      "avg_win_eur": 46,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.67
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.855,
+    "advocate_verdict": "PROCEED (retry) — Il commento in-codice del g_BE_Multiplier (v41) smonta esplicitamente questa leva: 'con RiskPercent costante la size si ",
+    "fresh_eyes_verdict": "PROCEED (retry) — La patch implementa esattamente la PRIORITÀ-2 prescritta dal target (SL Buffer = max(10pip, ATR_H1*0.40)), con valori co",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v42.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v41 (PF=1.260, DD=2.670%, Trades=91). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
