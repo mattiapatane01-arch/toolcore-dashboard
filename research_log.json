@@ -650,5 +650,34 @@
       "key_concept": "",
       "next_step": "Monitora se quel 2.7% di drawdown è accettabile per il tuo capitale. Se non lo è, prova ad aggiungere una gestione del rischio più stretta senza perdere la qualità dei segnali."
     }
+  },
+  {
+    "iteration": 38,
+    "version": "v38",
+    "date": "2026-06-05",
+    "modification": "EXIT-FIX ALTERNATIVO (non-ATR-SL): anticipo il trigger di Break-Even abbassando g_BE_ATR_Multiplieriplier 1.0→0.7. Diversamente da v32 (SL buffer ATR-adattivo, revertato) e v36 (trailing cap), questo lever non è mai stato toccato. Obiettivo: convertire i reversal in scratch invece che full-SL, alzando il PF senza ridurre il trade count.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 253,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.871,
+    "advocate_verdict": "PROCEED (retry) — v32 introdusse esattamente questo ATR_Mult adattivo e fu revertato in v33 perché peggiorava il PF; ripeterlo viola il 'N",
+    "fresh_eyes_verdict": "PROCEED (retry) — La logica è solida e fedele al target P2: sostituire 15pip fissi con max(10pip, ATR_H1*0.40) è un fix strutturale ATR-ba",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v38.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v37 (PF=1.310, DD=2.740%, Trades=58). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
