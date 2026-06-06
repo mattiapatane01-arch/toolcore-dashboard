@@ -1197,5 +1197,34 @@
       "key_concept": "",
       "next_step": "Verifica se questi risultati reggono su un campione più ampio di trade (58 potrebbero essere pochi per conclusioni definitive). Prova a testare il sistema su un periodo diverso per escludere l'overfitting."
     }
+  },
+  {
+    "iteration": 61,
+    "version": "v61",
+    "date": "2026-06-06",
+    "modification": "Ripristina g_SwingN_H4 da 7 a 5: l'INPUT REALS mostra ancora H4=7 (valore v59 che aveva distrutto PF 1.31→0.93). Con D1=7 e H4=7 entrambi restrittivi, il sistema filtra troppi entry validi su H4. Ripristinare H4=5 è il fix dimostrato che riporta PF=1.31.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.19,
+      "DD_percent": 2.63,
+      "payoff_ratio": 2.171,
+      "win_rate": 35.38,
+      "trade_count": 65,
+      "net_profit_eur": 186,
+      "avg_win_eur": 51,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.87
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.831,
+    "advocate_verdict": "PROCEED — La patch ha evidenza causale solida: v59 alzò H4 5→7 → PF crollò 1.31→0.93, la prima v60 ripristinò H4=5 → PF tornò 1.31",
+    "fresh_eyes_verdict": "PROCEED — L'evidenza causale è diretta e replicata: v59 (H4 5→7) ha degradato PF da 1.31→0.93, v60 (H4 7→5) lo ha recuperato a 1.3",
+    "learning": {
+      "what": "Abbiamo modificato il sistema per ridurre le perdite quando il mercato si muove contro di noi — probabilmente migliorando il filtro di entrata o l'uscita dalle posizioni perdenti.",
+      "result": "Il Profit Factor è volato da 1.01 a 1.19 (un salto significativo), e il drawdown si è quasi dimezzato: da 3.9% a 2.6%. È come dire: \"Prima guadagnavi a fatica, ora vinci di più rischiando meno\". Il payoff ratio è sceso leggermente (2.23 → 2.17), ma è un compromesso accettabile.",
+      "key_concept": "",
+      "next_step": "Monitora se il sistema continua a performare bene in mercati diversi (non solo nel backtest). Se i 65 trade sono distribuiti uniformemente nel tempo, il sistema è stabile — se sono concentrati in certi periodi, c'è ancora lavoro da fare."
+    }
   }
 ]
