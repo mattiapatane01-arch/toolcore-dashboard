@@ -1313,5 +1313,34 @@
       "key_concept": "",
       "next_step": ""
     }
+  },
+  {
+    "iteration": 63,
+    "version": "v63",
+    "date": "2026-06-06",
+    "modification": "Abbassa floor SL da 15pip a 10pip: la formula max(10pip, ATR_H1*0.40) ora si attiva su più trade, completando il fix PRIORITÀ 2",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.94,
+      "DD_percent": 5.72,
+      "payoff_ratio": 1.925,
+      "win_rate": 32.76,
+      "trade_count": 58,
+      "net_profit_eur": -58,
+      "avg_win_eur": 46,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.39
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.61,
+    "advocate_verdict": "PROCEED — La patch è coerente con PRIORITÀ 2 e non viola nessun 'NON FARE MAI'. Il rischio reale è che l'impatto sia troppo piccol",
+    "fresh_eyes_verdict": "MODIFY — Il rationale è tecnico e coerente (floor 15pip blocca la formula adattiva su bassa volatilità). Logica solida, non in bl",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA (probabilmente cambiato i parametri di entrata o uscita) nella speranza di migliorare i risultati complessivi.",
+      "result": "È un classico trade-off negativo. Sì, i trade vincenti sono un po' più grandi (+1.86 → 1.93), ma il sistema vince molto meno spesso (41.4% → 32.8%). Di conseguenza il Profit Factor è crollato (1.31 → 0.94) e il drawdown è raddoppiato (2.7% → 5.7%). Immagina un arciere che fa frecce più potenti ma colpisce il bersaglio meno volte: sì, quando colpisce fa più danno, ma overall perde.",
+      "key_concept": "",
+      "next_step": "Torna alla v62 e fai modifiche più piccole, una alla volta. Misura sempre il Profit Factor e il Max Drawdown insieme — sono i veri indicatori di salute del sistema."
+    }
   }
 ]
