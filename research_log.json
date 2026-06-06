@@ -1226,5 +1226,34 @@
       "key_concept": "",
       "next_step": "Monitora se il sistema continua a performare bene in mercati diversi (non solo nel backtest). Se i 65 trade sono distribuiti uniformemente nel tempo, il sistema è stabile — se sono concentrati in certi periodi, c'è ancora lavoro da fare."
     }
+  },
+  {
+    "iteration": 79,
+    "version": "v79",
+    "date": "2026-06-06",
+    "modification": "Abbassa g_SwingN_H4 da 5 a 4 per aumentare trade count esplorando direzione inesplorata (H4<5 mai testato)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.38,
+      "DD_percent": 10.34,
+      "payoff_ratio": 1.62,
+      "win_rate": 18.84,
+      "trade_count": 69,
+      "net_profit_eur": -773,
+      "avg_win_eur": 36,
+      "avg_loss_eur": -22,
+      "corr_mfe": 0.66
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.21,
+    "advocate_verdict": "PROCEED — La direzione è logicamente valida: H4=5 è stato stabilito empiricamente come ottimale, ma non è mai stato testato sotto ",
+    "fresh_eyes_verdict": "PROCEED — La logica è solida: H4<5 è veramente inesplorato, la variazione è unitaria e diretta opposta al fallimento v59 (7→5), co",
+    "learning": {
+      "what": "Abbiamo modificato il codice della v78 per farla iniziare a generare operazioni di trading. Prima non apriva alcuna posizione, ora apre 69 trade durante il test.",
+      "result": "L'EA ha iniziato a operare, ma sta perdendo complessivamente. Il Profit Factor di 0.38 significa che per ogni euro guadagnato, perde 2,60 euro — come se giocassi a poker e vincessi una mano su 5, ma le perdite fossero troppo grosse. Il Drawdown di 10.3% è accettabile, ma i numeri rossi dicono chiaramente: questo non sta funzionando.",
+      "key_concept": "",
+      "next_step": "Riduci la frequenza dei trade oppure affina i criteri di entrata per filtrare le operazioni peggiori. Con 69 trade in questo periodo, stai operando troppo — qualità sopra quantità."
+    }
   }
 ]
