@@ -1255,5 +1255,34 @@
       "key_concept": "",
       "next_step": "Riduci la frequenza dei trade oppure affina i criteri di entrata per filtrare le operazioni peggiori. Con 69 trade in questo periodo, stai operando troppo — qualità sopra quantità."
     }
+  },
+  {
+    "iteration": 80,
+    "version": "v80",
+    "date": "2026-06-06",
+    "modification": "Ripristina g_SwingN_H4 da 4 a 5: v79 ha distrutto PF 1.31→0.38 abbassando H4=4, stessa dinamica di v59 (H4=7→crash). Ripristino al valore v60 che aveva dato il miglior PF=1.31.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.19,
+      "DD_percent": 2.63,
+      "payoff_ratio": 2.171,
+      "win_rate": 35.38,
+      "trade_count": 65,
+      "net_profit_eur": 186,
+      "avg_win_eur": 51,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.87
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.831,
+    "advocate_verdict": "PROCEED — La patch è corretta e necessaria: H4=4 ha distrutto PF (0.38) e alzato DD (10.3%) — il ripristino a H4=5 riporta al best",
+    "fresh_eyes_verdict": "PROCEED — La logica è solida: H4=4 ha generato rumore puro (WR 18.8% vs 41.4% con H4=5), confermato dal crollo PF 0.38. Tornare a ",
+    "learning": {
+      "what": "",
+      "result": "",
+      "key_concept": "",
+      "next_step": ""
+    }
   }
 ]
