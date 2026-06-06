@@ -1458,5 +1458,34 @@
       "key_concept": "",
       "next_step": "Monitora il Profit Factor nei prossimi test — se scende sotto 1.0 significa che stiamo entrando troppo spesso e dobbiamo trovare di nuovo equilibrio. Il 5.7% di drawdown è buono per un sistema conservativo."
     }
+  },
+  {
+    "iteration": 85,
+    "version": "v85",
+    "date": "2026-06-06",
+    "modification": "IsBOS_M15_Valid: abbassa la soglia body/range da 60% a 40%. Una candela al 40% di body è ancora chiaramente direzionale (non è un doji né una spinning top), ma non richiede che la candela sia quasi integralmente piena. Questo cattura breakout reali con shadow minima ma proporzionale — pattern comuni su M15 nei mercati forex liquidi. La logica rimane identica: close oltre BOS level, range > ATR, body sufficientemente direzionale. Cambia solo la definizione di 'sufficiente'.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.32,
+      "DD_percent": 5.68,
+      "payoff_ratio": 1.866,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 555,
+      "avg_win_eur": 96,
+      "avg_loss_eur": -51,
+      "corr_mfe": 0.6
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.752,
+    "advocate_verdict": "PROCEED — La patch modifica una condizione if con un valore numerico soglia, ma il cambiamento è strutturalmente giustificato: 60%",
+    "fresh_eyes_verdict": "PROCEED — ERRORE claude: session limit persistente — You've hit your session limit · resets 11:40pm (Australia/Melbourne)",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v85.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v84 (PF=1.320, DD=5.680%, Trades=58). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
