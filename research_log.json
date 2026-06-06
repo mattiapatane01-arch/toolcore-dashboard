@@ -1284,5 +1284,34 @@
       "key_concept": "",
       "next_step": ""
     }
+  },
+  {
+    "iteration": 62,
+    "version": "v62",
+    "date": "2026-06-06",
+    "modification": "Ripristina g_SwingN_D1 da 7 a 10: ogni versione con D1=7 ha prodotto PF inferiore alla baseline D1=10 (v60-D1/H4=7: PF=1.01; v61/D1=7,H4=5: PF=1.19; vs v58/D1=10,H4=5: PF=1.31). Il restore è l'unica leva non ancora esplorata in questa direzione e non tocca parametri in DO_NOT_RETRY.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 254,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.871,
+    "advocate_verdict": "PROCEED (retry) — La patch è logicamente coerente: la direzione 3→2 su M15 non è stata mai testata (v57 aveva fatto 3→4, non l'opposto), q",
+    "fresh_eyes_verdict": "PROCEED (retry) — La patch viola esplicitamente il DO_NOT_RETRY list: 'g_SwingN_M15 abbassato sotto 3 (introduce trade marginali — bug v35",
+    "learning": {
+      "what": "",
+      "result": "",
+      "key_concept": "",
+      "next_step": ""
+    }
   }
 ]
