@@ -1342,5 +1342,34 @@
       "key_concept": "",
       "next_step": "Torna alla v62 e fai modifiche più piccole, una alla volta. Misura sempre il Profit Factor e il Max Drawdown insieme — sono i veri indicatori di salute del sistema."
     }
+  },
+  {
+    "iteration": 81,
+    "version": "v81",
+    "date": "2026-06-06",
+    "modification": "Ripristina g_SwingN_D1 da 7 a 10: la configurazione migliore (v58, PF=1.31) aveva D1=10. La degradazione 1.31→1.19 è iniziata quando v60-second ha abbassato D1 a 7 (PF→1.01), e v61 ha recuperato solo parzialmente a 1.19 tramite fix H4. Il delta residuo non recuperato (~0.12 PF) è attribuibile a D1=7 che ammette swing D1 strutturalmente deboli.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 254,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.871,
+    "advocate_verdict": "PROCEED (retry) — La patch è coerente con la PRIORITÀ 2 del target: la specifica chiede max(10pip, ATR_H1*0.40) e il floor a 15pip la sovr",
+    "fresh_eyes_verdict": "PROCEED (retry) — La logica è solida: il floor 15pip sta davvero bloccando l'ATR adattivo su EURUSD (ATR*0.40 ≈ 14.4pip). Ma l'effetto att",
+    "learning": {
+      "what": "",
+      "result": "",
+      "key_concept": "",
+      "next_step": ""
+    }
   }
 ]
