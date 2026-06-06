@@ -1371,5 +1371,34 @@
       "key_concept": "",
       "next_step": ""
     }
+  },
+  {
+    "iteration": 64,
+    "version": "v64",
+    "date": "2026-06-06",
+    "modification": "Ripristina g_SL_Buffer_Pips 10→15: v63 ha distrutto PF 1.31→0.94 abbassando il floor, stessa dinamica di altri abbassamenti distruttivi. Torna baseline v62 per applicare trailing cap in modo pulito su v65.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 254,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.871,
+    "advocate_verdict": "PROCEED — La patch è metodologicamente corretta: isola una variabile alla volta, il LEARNING conferma esplicitamente 'torna alla v",
+    "fresh_eyes_verdict": "PROCEED — v63 ha dimostrato una regressione quantificata e diretta (PF 1.31→0.94) modificando una sola variabile. Il ripristino di",
+    "learning": {
+      "what": "Abbiamo modificato il modo in cui il sistema gestisce il rischio o filtra i segnali di entrata — probabilmente hai aggiunto una protezione o un filtro per operazioni meno affidabili.",
+      "result": "È andata ancora meglio del previsto. Il Drawdown è crollato da 5.7% a 2.7% (il sistema rischia MOLTO meno), il Profit Factor è balzato da perdita (0.94) a profitto vero (1.31), e il Win Rate è salito dal 33% al 41%. L'unica \"brutta notizia\" è il Payoff Ratio leggermente calato (1.93 → 1.86), ma è un compromesso normale: meno soldi per singolo trade, ma più operazioni che vincono.",
+      "key_concept": "",
+      "next_step": "Controlla se il numero di trade (58) è sufficiente per una statistica affidabile e se il sistema rimane coerente con coppie o timeframe diversi. Se sì, questa è la direzione giusta."
+    }
   }
 ]
