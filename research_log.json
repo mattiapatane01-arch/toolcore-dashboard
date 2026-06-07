@@ -1545,5 +1545,34 @@
       "key_concept": "",
       "next_step": "la domanda vera è: per te è preferibile un DD del 2.7% con profitti leggermente minori, oppure preferisci rischiare il 4% per guadagnare più? Dipende dai tuoi obiettivi e da quanto capitale hai. Decidi prima, poi aggiusta il codice di conseguenza."
     }
+  },
+  {
+    "iteration": 88,
+    "version": "v88",
+    "date": "2026-06-07",
+    "modification": "GetTrend: aggiunge caso HH+LL (espansione di range) risolto dalla direzione dominante. Se i massimi salgono più dei minimi scendono (ratio >1.5x) → uptrend; viceversa → downtrend. Sblocca il caso expanding-range attualmente sempre rifiutato come laterale.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 0.84,
+      "DD_percent": 6.09,
+      "payoff_ratio": 1.77,
+      "win_rate": 32.08,
+      "trade_count": 106,
+      "net_profit_eur": -269,
+      "avg_win_eur": 40,
+      "avg_loss_eur": -23,
+      "corr_mfe": 0.62
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.557,
+    "advocate_verdict": "PROCEED (retry) — Il problema di coerenza è grave: v86 è già nel sorgente (visibile nel codice mostrato) eppure i risultati sono stati ide",
+    "fresh_eyes_verdict": "PROCEED (retry) — La patch è logicamente coerente: la diagnosi identifica due pattern di early-trend mancanti (HH senza LL, LL senza HH), ",
+    "learning": {
+      "what": "",
+      "result": "(non una teoria)\n- **Perché i numeri sono crollati** (con analogie semplici)\n- **Cosa imparare per la prossima iterazione** (il concetto chiave)\n\nUsalo come lezione — non come scusa per il peggioramento. I brutti risultati insegnano più di quelli buoni, se li leggi bene.\n\nMandami il codice e facciamo 5 minuti di insegnamento vero.",
+      "key_concept": "",
+      "next_step": ""
+    }
   }
 ]
