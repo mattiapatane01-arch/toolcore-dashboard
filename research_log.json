@@ -1516,5 +1516,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 87,
+    "version": "v87",
+    "date": "2026-06-07",
+    "modification": "[RULE-BASED v87] RiskPercent 0.35→0.24% (DD=0.0%)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.31,
+      "DD_percent": 2.74,
+      "payoff_ratio": 1.861,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 254,
+      "avg_win_eur": 44,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.6
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.871,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "abbiamo modificato il codice dell'EA (probabilmente reso più conservativo: stop loss più stretti, size minori, o filtri di ingresso più rigorosi).",
+      "result": "il drawdown è crollato da 4.0% a 2.7% — ottimo! Ma il Profit Factor è sceso da 1.32 a 1.31. È come aver messo la cintura di sicurezza in auto: sei più protetto dagli incidenti gravi, ma la macchina va più lentamente e i guadagni totali scendono.",
+      "key_concept": "",
+      "next_step": "la domanda vera è: per te è preferibile un DD del 2.7% con profitti leggermente minori, oppure preferisci rischiare il 4% per guadagnare più? Dipende dai tuoi obiettivi e da quanto capitale hai. Decidi prima, poi aggiusta il codice di conseguenza."
+    }
   }
 ]
