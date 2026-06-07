@@ -1487,5 +1487,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 86,
+    "version": "v86",
+    "date": "2026-06-07",
+    "modification": "GetTrend: aggiunge due casi di trend parziale. Uptrend parziale = higherLows AND NOT lowerHighs (HL confermato, massimi non in rottura ribassista). Downtrend parziale = lowerHighs AND NOT higherLows (LH confermato, minimi non in rottura rialzista). Rimane 0 solo per contraddizione esplicita (HH+LL o LH+HL simultanei). Questa logica cattura le fasi di pullback/consolidazione in trend, che la versione attuale scarta integralmente.",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.32,
+      "DD_percent": 4.02,
+      "payoff_ratio": 1.868,
+      "win_rate": 41.38,
+      "trade_count": 58,
+      "net_profit_eur": 386,
+      "avg_win_eur": 67,
+      "avg_loss_eur": -36,
+      "corr_mfe": 0.6
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.821,
+    "advocate_verdict": "PROCEED — La patch è una modifica logica reale (aggiunta di due rami if con operatore NOT, non un cambio numerico), non è stata pr",
+    "fresh_eyes_verdict": "PROCEED — Coerenza diagnostica perfetta: bottleneck GetTrend (81.6% bloccato) → fix logico (trend parziale accettato). Modifica lo",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v86.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v85 (PF=1.320, DD=4.020%, Trades=58). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
