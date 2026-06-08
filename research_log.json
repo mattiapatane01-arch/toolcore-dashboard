@@ -1603,5 +1603,34 @@
       "key_concept": "",
       "next_step": ""
     }
+  },
+  {
+    "iteration": 90,
+    "version": "v90",
+    "date": "2026-06-08",
+    "modification": "",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.07,
+      "DD_percent": 5.12,
+      "payoff_ratio": 1.988,
+      "win_rate": 35.05,
+      "trade_count": 194,
+      "net_profit_eur": 216,
+      "avg_win_eur": 47,
+      "avg_loss_eur": -23,
+      "corr_mfe": 0.82
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.683,
+    "advocate_verdict": "PROCEED — La patch è una modifica logica reale (rimozione di condizione booleana `isNY` da IsInActiveSession), non un cambio numer",
+    "fresh_eyes_verdict": "PROCEED — Diagnosi e patch sono coerenti: NY-only (17-22 GMT) mostra EV negativo empiricamente misurato (-4.66€/trade, WR=30% su 5",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v90.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v89 (PF=1.070, DD=5.120%, Trades=194). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
