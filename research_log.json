@@ -1690,5 +1690,34 @@
       "key_concept": "",
       "next_step": "Torna ai parametri di v91 e prova a modificare solo *uno* elemento per volta — ad esempio, cambia il timeframe di entrata o riduci gli stop loss, ma misura ogni modifica singolarmente. Altrimenti non capirai cosa sta causando il problema."
     }
+  },
+  {
+    "iteration": 93,
+    "version": "v93",
+    "date": "2026-06-08",
+    "modification": "Blocca path H4-neutro per AUDUSD e NZDUSD: richiedono ENTRAMBI D1+H4 confermati. USDJPY e EURUSD mantengono il path perm",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.16,
+      "DD_percent": 14.43,
+      "payoff_ratio": 1.974,
+      "win_rate": 37.06,
+      "trade_count": 143,
+      "net_profit_eur": 771,
+      "avg_win_eur": 104,
+      "avg_loss_eur": -53,
+      "corr_mfe": 0.73
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.43,
+    "advocate_verdict": "PROCEED — La patch è logica strutturale reale (aggiunge condizione `isCorrelatedPair` che cambia il branch di controllo per coppia",
+    "fresh_eyes_verdict": "PROCEED — Coerenza forte tra diagnosi (H4-neutro aggiunge rumore su AUD/NZD correlate, drag -437€ totale vs +1379€ da USDJPY+EURUS",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA — probabilmente reso le condizioni di entry più sensibili o ridotto i livelli di stop loss — per catturare più opportunità di trading.",
+      "result": "Il Profit Factor è salito da 1.07 a 1.16 (✓ guadagniamo più soldi per euro rischiato), il Win Rate è salito al 37%, PERÒ il Max Drawdown è balzato da 10.9% a 14.4%. È come se avessimo comprato una macchina più veloce: va più forte e consuma meno carburante, ma quando frena fa più male e i passeggeri hanno più paura.",
+      "key_concept": "",
+      "next_step": "Prova a trovare il punto di equilibrio: mantieni le entry più aggressive (che funzionano), ma aggiungi filtri per evitare trade correlati nella stessa direzione. Target: Win Rate 37% + Profit Factor alto, ma tenendo DD sotto 12%."
+    }
   }
 ]
