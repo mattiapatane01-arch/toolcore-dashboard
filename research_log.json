@@ -1661,5 +1661,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 92,
+    "version": "v92",
+    "date": "2026-06-08",
+    "modification": "[RULE-BASED v92] RiskPercent 0.24→0.5% (fallback assoluto)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.07,
+      "DD_percent": 10.89,
+      "payoff_ratio": 1.987,
+      "win_rate": 35.05,
+      "trade_count": 194,
+      "net_profit_eur": 456,
+      "avg_win_eur": 99,
+      "avg_loss_eur": -50,
+      "corr_mfe": 0.82
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.443,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA per (presumibilmente) catturare più movimenti di mercato o allargare i parametri di entrata/uscita.",
+      "result": "Il Profit Factor è rimasto fermo a 1.07 (i profitti non sono saliti), ma il Max Drawdown è quasi raddoppiato: da 5.1% a 10.9%. È come avere uno stesso numero di vittorie, ma con cadute molto più profonde nel mezzo. Il sistema è diventato più \"turbolento\" senza guadagnare di più.",
+      "key_concept": "",
+      "next_step": "Torna ai parametri di v91 e prova a modificare solo *uno* elemento per volta — ad esempio, cambia il timeframe di entrata o riduci gli stop loss, ma misura ogni modifica singolarmente. Altrimenti non capirai cosa sta causando il problema."
+    }
   }
 ]
