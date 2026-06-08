@@ -1574,5 +1574,34 @@
       "key_concept": "",
       "next_step": ""
     }
+  },
+  {
+    "iteration": 89,
+    "version": "v89",
+    "date": "2026-06-08",
+    "modification": "",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.07,
+      "DD_percent": 5.12,
+      "payoff_ratio": 1.988,
+      "win_rate": 35.05,
+      "trade_count": 194,
+      "net_profit_eur": 216,
+      "avg_win_eur": 47,
+      "avg_loss_eur": -23,
+      "corr_mfe": 0.82
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.683,
+    "advocate_verdict": "PROCEED (retry) — La patch è logicamente coerente: aggiunge un bucket if genuinamente nuovo (non tocca valori esistenti), Layer2b ADX è co",
+    "fresh_eyes_verdict": "PROCEED (retry) — La diagnosi è plausibile (ADX 20-24 è momentum reale, blocca segnali potenziali), ma ha **disallineamento critico**: men",
+    "learning": {
+      "what": "",
+      "result": "",
+      "key_concept": "",
+      "next_step": ""
+    }
   }
 ]
