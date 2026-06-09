@@ -1748,5 +1748,34 @@
       "key_concept": "",
       "next_step": "Verifica che questa stabilità regga in condizioni di mercato estreme (trend dirompenti, volatilità alta). Se il drawdown rimane sotto il 12% anche in stress test realistici, la modifica è solida."
     }
+  },
+  {
+    "iteration": 95,
+    "version": "v95",
+    "date": "2026-06-09",
+    "modification": "In GetTrend (o nel blocco che gestisce il path H4-neutro), aggiungere requisito ADX H4 > 18 prima di accettare il path. ",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.16,
+      "DD_percent": 10.19,
+      "payoff_ratio": 1.962,
+      "win_rate": 37.14,
+      "trade_count": 140,
+      "net_profit_eur": 505,
+      "avg_win_eur": 70,
+      "avg_loss_eur": -36,
+      "corr_mfe": 0.72
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.505,
+    "advocate_verdict": "PROCEED (retry) — Il ragionamento su AUDUSD è parzialmente fondato (WR=25.9% è allarmante), ma n=27 su 4 anni è ~7 trade/anno — troppo poc",
+    "fresh_eyes_verdict": "PROCEED (retry) — La diagnosi (AUDUSD sistematicamente negativo: WR=25.9%, avg=-13.87€, n=27) è corretta e supportata dai dati. Tuttavia, ",
+    "learning": {
+      "what": "",
+      "result": "",
+      "key_concept": "",
+      "next_step": ""
+    }
   }
 ]
