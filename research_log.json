@@ -1835,5 +1835,34 @@
       "key_concept": "",
       "next_step": "Prima di aumentare il rischio di nuovo, domandati: \"Il sistema sta generando meno drawdown con rischio basso perché è davvero controllato, o è semplicemente fortunato?\" Controlla se in v96 il DD è stabile anche in periodi più lunghi."
     }
+  },
+  {
+    "iteration": 98,
+    "version": "v98",
+    "date": "2026-06-09",
+    "modification": "[RULE-BASED v98] RiskPercent 0.24→0.5% (fallback assoluto)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.16,
+      "DD_percent": 14.37,
+      "payoff_ratio": 1.955,
+      "win_rate": 37.14,
+      "trade_count": 140,
+      "net_profit_eur": 719,
+      "avg_win_eur": 103,
+      "avg_loss_eur": -53,
+      "corr_mfe": 0.72
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.43,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo applicato una modifica al codice EA v98.",
+      "result": "⚠️ ATTENZIONE — i risultati sono IDENTICI al millesimo rispetto a v97 (PF=1.160, DD=14.370%, Trades=140). Questo NON è una patch neutra — è quasi certamente un bug tecnico nel sistema di backtest: il parametro modificato non è stato letto correttamente da MT5. Verificare che il .set file non stia sovrascrivendo il .ini, e che il valore patchato sia effettivamente nel sorgente compilato.",
+      "key_concept": "",
+      "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
+    }
   }
 ]
