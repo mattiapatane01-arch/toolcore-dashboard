@@ -1806,5 +1806,34 @@
       "key_concept": "",
       "next_step": "Verifica se questo drawdown più basso ti permette di operare più a lungo senza stress psicologico. Se sì, è una vittoria. Se il profitto è diventato troppo lento, potresti provare a ottimizzare la strategia stessa, non solo il rischio."
     }
+  },
+  {
+    "iteration": 97,
+    "version": "v97",
+    "date": "2026-06-09",
+    "modification": "[RULE-BASED v97] RiskPercent 0.24→0.5% (fallback assoluto)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.16,
+      "DD_percent": 14.37,
+      "payoff_ratio": 1.955,
+      "win_rate": 37.14,
+      "trade_count": 140,
+      "net_profit_eur": 719,
+      "avg_win_eur": 103,
+      "avg_loss_eur": -53,
+      "corr_mfe": 0.72
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.43,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo raddoppiato il rischio per ogni singolo trade (da 0.24% a 0.5% del capitale), cercando di generare profitti più grandi.",
+      "result": "Il Profit Factor è rimasto identico (1.16), ma il Max Drawdown è raddoppiato da 7% a 14.4%. È come aver guidato l'auto il doppio della velocità su una strada con gli stessi buche — il viaggio è uguale, ma ogni buca ti scuote il doppio.",
+      "key_concept": "",
+      "next_step": "Prima di aumentare il rischio di nuovo, domandati: \"Il sistema sta generando meno drawdown con rischio basso perché è davvero controllato, o è semplicemente fortunato?\" Controlla se in v96 il DD è stabile anche in periodi più lunghi."
+    }
   }
 ]
