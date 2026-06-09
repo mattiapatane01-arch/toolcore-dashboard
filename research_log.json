@@ -1719,5 +1719,34 @@
       "key_concept": "",
       "next_step": "Prova a trovare il punto di equilibrio: mantieni le entry più aggressive (che funzionano), ma aggiungi filtri per evitare trade correlati nella stessa direzione. Target: Win Rate 37% + Profit Factor alto, ma tenendo DD sotto 12%."
     }
+  },
+  {
+    "iteration": 94,
+    "version": "v94",
+    "date": "2026-06-09",
+    "modification": "[RULE-BASED v94] RiskPercent 0.5→0.35% (DD=0.0%)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.17,
+      "DD_percent": 10.18,
+      "payoff_ratio": 1.986,
+      "win_rate": 37.06,
+      "trade_count": 143,
+      "net_profit_eur": 548,
+      "avg_win_eur": 71,
+      "avg_loss_eur": -36,
+      "corr_mfe": 0.73
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.509,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo modificato il codice dell'EA (probabilmente il modo in cui gestisce le posizioni aperte), senza cambiare la logica dei segnali di entrata.",
+      "result": "Il drawdown è sceso da 14.4% a 10.2% — una riduzione di oltre il 4%, che è significativa. Contemporaneamente, il win rate è rimasto esattamente uguale (37.1%), il che significa che non abbiamo perso la qualità dei segnali: il sistema prende le stesse decisioni di prima, solo le gestisce meglio.",
+      "key_concept": "",
+      "next_step": "Verifica che questa stabilità regga in condizioni di mercato estreme (trend dirompenti, volatilità alta). Se il drawdown rimane sotto il 12% anche in stress test realistici, la modifica è solida."
+    }
   }
 ]
