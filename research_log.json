@@ -1922,5 +1922,34 @@
       "key_concept": "",
       "next_step": "Verifica se con 126 trade il campione è abbastanza solido. Se il win rate rimane stabile con ancora più trade, sei sulla strada giusta — considera se puoi scendere ulteriormente verso 0.30% mantenendo la stessa efficienza."
     }
+  },
+  {
+    "iteration": 102,
+    "version": "v102",
+    "date": "2026-06-10",
+    "modification": "[RULE-BASED v102] RiskPercent 0.35→0.24% (DD=0.0%)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.19,
+      "DD_percent": 6.07,
+      "payoff_ratio": 2.005,
+      "win_rate": 37.3,
+      "trade_count": 126,
+      "net_profit_eur": 367,
+      "avg_win_eur": 48,
+      "avg_loss_eur": -24,
+      "corr_mfe": 0.75
+    },
+    "status": "neutral",
+    "kept": false,
+    "score": 0.688,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo ridotto il rischio per ogni singolo trade, da 0.35% a 0.24% del capitale. In pratica, per ogni operazione il sistema rischia meno soldi.",
+      "result": "Il drawdown è davvero migliorato (da 8.8% a 6.1% — ottimo). Ma il Profit Factor è rimasto **identico a 1.19**. Questo è il problema: abbiamo ridotto le perdite, ma anche i guadagni sono rimasti proporzionalmente gli stessi. È come ridurre il volume di un negozio senza migliorare il markup — vendi meno cose, ma il guadagno per vendita rimane uguale.",
+      "key_concept": "",
+      "next_step": "Il vero problema non è il rischio — è la logica di trading. Prima di ridurre il rischio ancora, guarda se puoi migliorare **quando entri** e **quando esci** dai trade. Un Profit Factor a 1.19 è ancora debole (vogliamo >1.5 per sistemi robusti)."
+    }
   }
 ]
