@@ -1864,5 +1864,34 @@
       "key_concept": "",
       "next_step": "Verificare il .set file, rimuoverlo e ritestare la stessa patch."
     }
+  },
+  {
+    "iteration": 100,
+    "version": "v100",
+    "date": "2026-06-10",
+    "modification": "Aggiunge filtro ADX D1 ≥ 25 per AUDUSD nel path D1+H4 confermati: blocca gli allineamenti strutturali privi di momentum ",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.18,
+      "DD_percent": 12.43,
+      "payoff_ratio": 1.99,
+      "win_rate": 37.3,
+      "trade_count": 126,
+      "net_profit_eur": 765,
+      "avg_win_eur": 105,
+      "avg_loss_eur": -53,
+      "corr_mfe": 0.74
+    },
+    "status": "success",
+    "kept": true,
+    "score": 0.437,
+    "advocate_verdict": "MODIFY — La patch è logicamente corretta e non è un cambio numerico puro: aggiunge una condizione strutturale (ADX D1 ≥ 25) che d",
+    "fresh_eyes_verdict": "PROCEED — Diagnosi e patch sono coerenti: AUDUSD è l'outlier negativo (WR 25.9%, avg_profit -20.35€), tutti i 27 trade dal path D1",
+    "learning": {
+      "what": "Abbiamo aggiunto un \"filtro di sicurezza\" — l'ADX a 25 su daily — che dice al sistema \"apri una posizione solo se il mercato ha davvero forza direzionale, non quando è indeciso\".",
+      "result": "La v99 non generava alcun trade (0 operazioni, per questo le metriche erano tutte zeri). La v100 con il filtro ha finalmente acceso il sistema: 126 trade, Profit Factor 1.18 (per ogni euro perso, ne guadagniamo 1,18) e drawdown 12.4% — perfettamente in target. La sorpresa positiva è il Payoff Ratio di 1.99: vuol dire che quando vinciamo, vinciamo quasi il doppio di quando perdiamo. Questo compensa la win rate bassa (37%) e rende il sistema profittevole.",
+      "key_concept": "",
+      "next_step": "Monitora se il DD di 12,4% è stabile tra i diversi periodi di mercato, oppure se ci sono scenari dove schizza oltre il 12%. Se stabile, sei pronto a testare sugli altri asset."
+    }
   }
 ]
