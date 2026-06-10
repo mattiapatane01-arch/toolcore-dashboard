@@ -1951,5 +1951,34 @@
       "key_concept": "",
       "next_step": "Il vero problema non è il rischio — è la logica di trading. Prima di ridurre il rischio ancora, guarda se puoi migliorare **quando entri** e **quando esci** dai trade. Un Profit Factor a 1.19 è ancora debole (vogliamo >1.5 per sistemi robusti)."
     }
+  },
+  {
+    "iteration": 103,
+    "version": "v103",
+    "date": "2026-06-10",
+    "modification": "[RULE-BASED v103] RiskPercent 0.24→0.5% (fallback assoluto)",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.18,
+      "DD_percent": 12.43,
+      "payoff_ratio": 1.99,
+      "win_rate": 37.3,
+      "trade_count": 126,
+      "net_profit_eur": 765,
+      "avg_win_eur": 105,
+      "avg_loss_eur": -53,
+      "corr_mfe": 0.74
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.437,
+    "advocate_verdict": "PROCEED",
+    "fresh_eyes_verdict": "PROCEED",
+    "learning": {
+      "what": "Abbiamo aumentato il rischio per ogni operazione dal 0.24% allo 0.5% del capitale. In pratica, abbiamo deciso di metterci più soldi per ogni trade sperando di guadagnare di più.",
+      "result": "Il sistema ha guadagnato meno (Profit Factor: 1.19 → 1.18) e ha perso il doppio (Max Drawdown: 6.1% → 12.4%). È come mettere più benzina in un'auto rotta: consumi di più ma arrivi più lontano da casa senza migliorare. Le perdite sono state ampliate così tanto che hanno compensato i guadagni.",
+      "key_concept": "",
+      "next_step": "Prima di aumentare il rischio, migliora la qualità dei segnali (filtri, timeframe, logica). Solo dopo che il sistema è coerente e prevedibile, puoi aumentare il rischio per trade."
+    }
   }
 ]
