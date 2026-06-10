@@ -2009,5 +2009,34 @@
       "key_concept": "",
       "next_step": "Verifica se il profitto totale assoluto (euro guadagnati) è sceso proporzionalmente, o se la riduzione di drawdown vale il compromesso. Poi prova a trovare l'equilibrio perfetto tra sicurezza e profitto vero."
     }
+  },
+  {
+    "iteration": 105,
+    "version": "v105",
+    "date": "2026-06-10",
+    "modification": "Fix asimmetria sell-side H4-neutro: aggiungi gate ADX H4≥18 identico al buy-side",
+    "params_changed": {},
+    "metrics": {
+      "PF": 1.134,
+      "DD_percent": 8.47,
+      "payoff_ratio": 1.882,
+      "win_rate": 37.6,
+      "trade_count": 125,
+      "net_profit_eur": 389,
+      "avg_win_eur": 70,
+      "avg_loss_eur": -37,
+      "corr_mfe": 0.76
+    },
+    "status": "fail",
+    "kept": false,
+    "score": 0.567,
+    "advocate_verdict": "MODIFY — Il primary_problem (asimmetria sell-side H4-neutro) è reale e coerente con i dati: EURUSD ha WR 31% su 48 trade ed è l'u",
+    "fresh_eyes_verdict": "PROCEED — Diagnosi precisa (EURUSD WR=31%, asimmetria Layer1 codice buy-side vs sell-side, discontinuità ScoreADX 0→15) è logicame",
+    "learning": {
+      "what": "Abbiamo aggiunto un filtro ADX (un indicatore che misura la \"forza\" del trend) sul lato delle vendite, esattamente come era già stato fatto sul lato degli acquisti. L'idea era rendere simmetrico il sistema.",
+      "result": "Il Profit Factor è peggiorato (1.19 → 1.13) e il Payoff Ratio è calato (1.99 → 1.88), anche se il drawdown è migliorato leggermente. È come se il filtro ADX dicesse \"no\" alle operazioni sbagliate, ma **togliesse anche molte operazioni buone**. Il sistema è diventato più conservativo, ma ha perso soldi complessivamente.",
+      "key_concept": "",
+      "next_step": "Invece di copiare il filtro buy-side, prova ad ottimizzare un ADX diverso **specificamente per il sell-side**. Oppure usa un filtro completamente diverso per quel lato (magari Volatilità, RSI, o altro). La soluzione è personalizzazione, non simmetria."
+    }
   }
 ]
